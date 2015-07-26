@@ -103,7 +103,7 @@ class CDN_Enabler_Rewriter
     * rewrite url
     *
     * @since   0.0.1
-    * @change  0.0.1
+    * @change  1.0.0
     *
     * @param   string  $html  current raw HTML doc
     * @return  string  updated HTML doc with CDN links
@@ -125,7 +125,9 @@ class CDN_Enabler_Rewriter
         // check if relative paths
         if ($this->relative) {
             $regex_rule .= '(?:'.$blog_url.')?';
-        }
+        } else {
+			$regex_rule .= $blog_url;
+		}
 
         // regex rule end
 		$regex_rule .= '/(?:((?:'.$dirs.')[^\"\')]+)|([^/\"\']+\.[^/\"\')]+))(?=[\"\')])#';

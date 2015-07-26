@@ -2,7 +2,7 @@
 Contributors: keycdn
 Tags: cdn, content delivery network, content distribution network
 Requires at least: 3.8
-Tested up to: 4.2.2
+Tested up to: 4.2.3
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -17,12 +17,13 @@ Enable CDN URLs for your static assets such as images, CSS or JavaScripts.
 
 
 = What it does? =
-The CDN Enabler plugin has been developed to set the links of your content to the CDN URLs.
+The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 
 = Features =
-* Modifies the links of your assets to load them from a CDN
-* Define included directories
+* Link assets to load from a CDN
+* Set included directories
 * Define exclusions
+* Enable or disable for HTTPS
 
 
 = System Requirements =
