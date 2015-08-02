@@ -6,7 +6,7 @@ Description: Simply integrate a Content Delivery Network (CDN) into your WordPre
 Author: KeyCDN
 Author URI: https://www.keycdn.com
 License: GPLv2 or later
-Version: 0.0.1
+Version: 1.0.1
 */
 
 /*

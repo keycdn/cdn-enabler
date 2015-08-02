@@ -103,13 +103,13 @@ class CDN_Enabler_Rewriter
     * rewrite url
     *
     * @since   0.0.1
-    * @change  1.0.0
+    * @change  1.0.1
     *
     * @param   string  $html  current raw HTML doc
     * @return  string  updated HTML doc with CDN links
     */
 
-	public function rewrite(&$html) {
+	public function rewrite($html) {
         // check if HTTPS and use CDN over HTTPS enabled
 		if (!$this->https && isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') {
 			return $html;

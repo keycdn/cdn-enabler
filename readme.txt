@@ -28,7 +28,7 @@ The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 
 
 = System Requirements =
-* PHP >=5.2.4
+* PHP >=5.3
 * WordPress >=3.8
 
 
@@ -40,6 +40,10 @@ The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 
 
 == Changelog ==
+
+= 1.0.1 =
+* First major release
+* Fixed warnings
 
 = 0.0.1 =
 * First release
