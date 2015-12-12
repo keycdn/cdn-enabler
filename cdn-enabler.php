@@ -10,7 +10,7 @@ Version: 1.0.1
 */
 
 /*
-Copyright (C)  2012-2015 KeyCDN
+Copyright (C)  2015 KeyCDN
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
