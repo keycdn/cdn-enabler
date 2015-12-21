@@ -25,6 +25,7 @@ The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 * Set included directories
 * Define exclusions
 * Enable or disable for HTTPS
+* Supports [Bedrock](https://roots.io/bedrock/ "Bedrock CDN")
 
 
 = System Requirements =
@@ -40,6 +41,9 @@ The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 
 
 == Changelog ==
+
+= 1.0.2 =
+* Switched from siteurl to home (e.g. for bedrock support)
 
 = 1.0.1 =
 * First major release

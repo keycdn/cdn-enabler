@@ -140,14 +140,14 @@ class CDN_Enabler
 	* run activation hook
 	*
 	* @since   0.0.1
-	* @change  0.0.1
+	* @change  1.0.2
 	*/
 
 	public static function handle_activation_hook() {
         add_option(
             'cdn_enabler',
             array(
-                'url' => get_option('siteurl'),
+                'url' => get_option('home'),
                 'dirs' => 'wp-content,wp-includes',
                 'excludes' => '.php',
                 'relative' => '1',
@@ -184,7 +184,7 @@ class CDN_Enabler
 	* return plugin options
 	*
 	* @since   0.0.1
-	* @change  0.0.1
+	* @change  1.0.2
 	*
 	* @return  array  $diff  data pairs
 	*/
@@ -194,7 +194,7 @@ class CDN_Enabler
 		return wp_parse_args(
 			get_option('cdn_enabler'),
 			array(
-                'url' => get_option('siteurl'),
+                'url' => get_option('home'),
                 'dirs' => 'wp-content,wp-includes',
                 'excludes' => '.php',
                 'relative' => 1,
@@ -208,7 +208,7 @@ class CDN_Enabler
 	* run rewrite hook
 	*
 	* @since   0.0.1
-	* @change  0.0.1
+	* @change  1.0.2
 	*/
 
     public static function handle_rewrite_hook()
@@ -216,14 +216,14 @@ class CDN_Enabler
         $options = self::get_options();
 
         // check if origin equals cdn url
-        if (get_option('siteurl') == $options['url']) {
+        if (get_option('home') == $options['url']) {
     		return;
     	}
 
         $excludes = array_map('trim', explode(',', $options['excludes']));
 
     	$rewriter = new CDN_Enabler_Rewriter(
-    		get_option('siteurl'),
+    		get_option('home'),
     		$options['url'],
     		$options['dirs'],
     		$excludes,
