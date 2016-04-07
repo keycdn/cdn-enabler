@@ -90,6 +90,10 @@ class CDN_Enabler_Settings
 				<?php _e("CDN Enabler Settings", "cdn"); ?>
 			</h2>
 
+			<div class="notice notice-info">
+				<p>Combine CDN Enabler with <strong><a href="https://www.keycdn.com?utm_source=wp-admin&utm_medium=plugins&utm_campaign=cdn-enabler">KeyCDN</a></strong> for even faster WordPress performance.</p>
+			</div>
+
 			<form method="post" action="options.php">
 				<?php settings_fields('cdn_enabler') ?>
 
