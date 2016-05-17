@@ -42,6 +42,9 @@ The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 
 == Changelog ==
 
+= 1.0.3 =
+* Improved exclusions for directories and extensions
+
 = 1.0.2 =
 * Switched from siteurl to home (e.g. for bedrock support)
 
