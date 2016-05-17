@@ -34,7 +34,7 @@ class CDN_Enabler_Settings
 	* validation of settings
 	*
 	* @since   0.0.1
-	* @change  0.0.1
+	* @change  1.0.3
 	*
 	* @param   array  $data  array with form data
 	* @return  array         array with validated values
@@ -45,6 +45,7 @@ class CDN_Enabler_Settings
 		return array(
 			'url'		=> esc_url($data['url']),
 			'dirs'		=> esc_attr($data['dirs']),
+			'excldirs'	=> esc_attr($data['excldirs']),
 			'excludes'	=> esc_attr($data['excludes']),
 			'relative'	=> (int)($data['relative']),
 			'https'		=> (int)($data['https'])
@@ -78,7 +79,7 @@ class CDN_Enabler_Settings
 	* settings page
 	*
 	* @since   0.0.1
-	* @change  0.0.1
+	* @change  1.0.3
 	*
 	* @return  void
 	*/
@@ -131,6 +132,24 @@ class CDN_Enabler_Settings
 
 								<p class="description">
 									<?php _e("Assets in these directories will be pointed to the CDN URL. Enter the directories separated by", "cdn-enabler"); ?> <code>,</code>
+								</p>
+							</fieldset>
+						</td>
+					</tr>
+
+					<tr valign="top">
+						<th scope="row">
+							<?php _e("Excluded Directories", "cdn-enabler"); ?>
+						</th>
+						<td>
+							<fieldset>
+								<label for="cdn_enabler_excldirs">
+									<input type="text" name="cdn_enabler[excldirs]" id="cdn_enabler_excldirs" value="<?php echo $options['excldirs']; ?>" size="64" class="regular-text code" />
+									<?php _e("Default: empty", "cdn-enabler"); ?>
+								</label>
+
+								<p class="description">
+									<?php _e("Assets in these directories will <b>NOT</b> be pointed to the CDN URL. Enter the directories separated by", "cdn-enabler"); ?> <code>,</code>
 								</p>
 							</fieldset>
 						</td>

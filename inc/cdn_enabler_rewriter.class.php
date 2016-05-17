@@ -12,6 +12,7 @@ class CDN_Enabler_Rewriter
 	var $cdn_url = null; // CDN URL
 
 	var $dirs = null; // included directories
+	var $excldirs = array(); // excluded directories
 	var $excludes = array(); // excluded extensions
 	var $relative = false; // use CDN on relative paths
 	var $https = false; // use CDN on HTTPS
@@ -20,13 +21,14 @@ class CDN_Enabler_Rewriter
 	* constructor
 	*
 	* @since   0.0.1
-	* @change  0.0.1
+	* @change  1.0.3
 	*/
 
-	function __construct($blog_url, $cdn_url, $dirs, array $excludes, $relative, $https) {
+	function __construct($blog_url, $cdn_url, $dirs, array $excldirs, array $excludes, $relative, $https) {
 		$this->blog_url = $blog_url;
 		$this->cdn_url = $cdn_url;
 		$this->dirs	= $dirs;
+		$this->excldirs	= $excldirs;
 		$this->excludes = $excludes;
 		$this->relative	= $relative;
 		$this->https = $https;
@@ -34,16 +36,23 @@ class CDN_Enabler_Rewriter
 
 
     /**
-    * excludes assets that should not rewritten
+    * excludes assets that should not be rewritten
     *
     * @since   0.0.1
-    * @change  0.0.1
+    * @change  1.0.3
     *
     * @param   string  $asset  current asset
     * @return  boolean  true if need to be excluded
     */
 
 	protected function exclude_asset(&$asset) {
+		// exclude directories
+		foreach ($this->excldirs as $excldir) {
+			if (!!$excldir && stristr($asset, $excldir) != false) {
+				return true;
+			}
+		}
+		// exclude extensions
 		foreach ($this->excludes as $exclude) {
 			if (!!$exclude && stristr($asset, $exclude) != false) {
 				return true;

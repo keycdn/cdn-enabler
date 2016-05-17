@@ -143,7 +143,7 @@ class CDN_Enabler
 	* run activation hook
 	*
 	* @since   0.0.1
-	* @change  1.0.2
+	* @change  1.0.3
 	*/
 
 	public static function handle_activation_hook() {
@@ -152,6 +152,7 @@ class CDN_Enabler
             array(
                 'url' => get_option('home'),
                 'dirs' => 'wp-content,wp-includes',
+				'excldirs' => '',
                 'excludes' => '.php',
                 'relative' => '1',
                 'https' => ''
@@ -204,7 +205,7 @@ class CDN_Enabler
 	* return plugin options
 	*
 	* @since   0.0.1
-	* @change  1.0.2
+	* @change  1.0.3
 	*
 	* @return  array  $diff  data pairs
 	*/
@@ -215,6 +216,7 @@ class CDN_Enabler
 			array(
                 'url' => get_option('home'),
                 'dirs' => 'wp-content,wp-includes',
+				'excldirs' => '',
                 'excludes' => '.php',
                 'relative' => 1,
                 'https' => 0
@@ -227,7 +229,7 @@ class CDN_Enabler
 	* run rewrite hook
 	*
 	* @since   0.0.1
-	* @change  1.0.2
+	* @change  1.0.3
 	*/
 
     public static function handle_rewrite_hook() {
@@ -238,12 +240,14 @@ class CDN_Enabler
     		return;
     	}
 
+		$excldirs = array_map('trim', explode(',', $options['excldirs']));
         $excludes = array_map('trim', explode(',', $options['excludes']));
 
     	$rewriter = new CDN_Enabler_Rewriter(
     		get_option('home'),
     		$options['url'],
     		$options['dirs'],
+			$excldirs,
     		$excludes,
     		$options['relative'],
     		$options['https']
