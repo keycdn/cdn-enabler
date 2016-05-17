@@ -17,8 +17,7 @@ class CDN_Enabler
 	* @change  0.0.1
 	*/
 
-	public static function instance()
-	{
+	public static function instance() {
 		new self();
 	}
 
@@ -30,8 +29,7 @@ class CDN_Enabler
 	* @change  0.0.1
 	*/
 
-	public function __construct()
-	{
+	public function __construct() {
 
         /* CDN rewriter hook */
         add_action(
@@ -98,8 +96,7 @@ class CDN_Enabler
 	* @return  array  $data  extended array with links
 	*/
 
-	public static function add_action_link($data)
-	{
+	public static function add_action_link($data) {
 		// check permission
 		if ( ! current_user_can('manage_options') ) {
 			return $data;
@@ -130,8 +127,7 @@ class CDN_Enabler
 	* @change  0.0.1
 	*/
 
-	public static function handle_uninstall_hook()
-	{
+	public static function handle_uninstall_hook() {
         delete_option('cdn_enabler');
 	}
 
@@ -171,7 +167,7 @@ class CDN_Enabler
 				sprintf(
 					'<div class="error"><p>%s</p></div>',
 					sprintf(
-						__("CDN Enabler is optimized for WordPress %s. Please disable the plugin or upgrade your WordPress installation (recommended).", "cdn"),
+						__("CDN Enabler is optimized for WordPress %s. Please disable the plugin or upgrade your WordPress installation (recommended).", "cdn-enabler"),
 						CDN_ENABLER_MIN_WP
 					)
 				)
@@ -189,8 +185,7 @@ class CDN_Enabler
 	* @return  array  $diff  data pairs
 	*/
 
-	public static function get_options()
-	{
+	public static function get_options() {
 		return wp_parse_args(
 			get_option('cdn_enabler'),
 			array(
@@ -211,8 +206,7 @@ class CDN_Enabler
 	* @change  1.0.2
 	*/
 
-    public static function handle_rewrite_hook()
-    {
+    public static function handle_rewrite_hook() {
         $options = self::get_options();
 
         // check if origin equals cdn url

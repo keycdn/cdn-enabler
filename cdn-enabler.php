@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: CDN Enabler
-Text Domain: cdn
+Text Domain: cdn-enabler
 Description: Simply integrate a Content Delivery Network (CDN) into your WordPress site.
 Author: KeyCDN
 Author URI: https://www.keycdn.com
