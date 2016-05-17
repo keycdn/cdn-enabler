@@ -54,6 +54,13 @@ class CDN_Enabler
 		add_action(
 			'admin_init',
 			array(
+				__CLASS__,
+				'register_textdomain'
+			)
+		);
+		add_action(
+			'admin_init',
+			array(
 				'CDN_Enabler_Settings',
 				'register_settings'
 			)
@@ -173,6 +180,23 @@ class CDN_Enabler
 				)
 			);
 		}
+	}
+
+
+	/**
+	* register textdomain
+	*
+	* @since   1.0.3
+	* @change  1.0.3
+	*/
+
+	public static function register_textdomain() {
+
+		load_plugin_textdomain(
+			'cdn-enabler',
+			false,
+			'cdn-enabler/lang'
+		);
 	}
 
 
