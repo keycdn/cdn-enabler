@@ -57,3 +57,5 @@ The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 
 
 == Screenshots ==
+
+1. CDN Enabler settings page
