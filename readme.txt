@@ -27,6 +27,8 @@ The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 * Enable or disable for HTTPS
 * Supports [Bedrock](https://roots.io/bedrock/ "Bedrock CDN")
 
+> The CDN Enabler works perfectly with the fast and lightweight [WordPress Cache Enabler](https://wordpress.org/plugins/cache-enabler/) plugin.
+
 
 = System Requirements =
 * PHP >=5.3
@@ -34,8 +36,6 @@ The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 
 
 = Author =
-* [Twitter](https://twitter.com/keycdn)
-* [Google+](https://plus.google.com/+Keycdn "Google+")
 * [KeyCDN](https://www.keycdn.com "KeyCDN")
 
 
