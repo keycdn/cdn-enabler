@@ -26,7 +26,7 @@ class CDN_Enabler
 	* constructor
 	*
 	* @since   0.0.1
-	* @change  0.0.1
+	* @change  1.0.4
 	*/
 
 	public function __construct() {
@@ -39,16 +39,6 @@ class CDN_Enabler
                 'handle_rewrite_hook'
             )
         );
-
-		/* Filter */
-		if ( (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) OR (defined('DOING_CRON') && DOING_CRON) OR (defined('DOING_AJAX') && DOING_AJAX) OR (defined('XMLRPC_REQUEST') && XMLRPC_REQUEST) ) {
-			//return;
-		}
-
-		/* BE only */
-		if ( ! is_admin() ) {
-			//return;
-		}
 
 		/* Hooks */
 		add_action(
