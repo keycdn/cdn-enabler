@@ -35,6 +35,11 @@ The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 * WordPress >=3.8
 
 
+= Contribute =
+* Anyone is welcome to contribute to the plugin on [GitHub](https://github.com/keycdn/cdn-enabler).
+* Please merge (squash) all your changes into a single commit before you open a pull request.
+
+
 = Author =
 * [KeyCDN](https://www.keycdn.com "KeyCDN")
 
