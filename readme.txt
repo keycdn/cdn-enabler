@@ -47,6 +47,9 @@ The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 
 == Changelog ==
 
+= 1.0.5 =
+* Rewrite CDN to both http and https URLs
+
 = 1.0.4 =
 * Removed unused code
 

@@ -48,13 +48,17 @@ class CDN_Enabler_Settings
         if (!isset($data['https'])) {
             $data['https'] = 0;
         }
+        if (!isset($data['both'])) {
+            $data['both'] = 0;
+        }
 
         return array(
             'url'        => esc_url($data['url']),
             'dirs'       => esc_attr($data['dirs']),
             'excludes'   => esc_attr($data['excludes']),
             'relative'   => (int)($data['relative']),
-            'https'      => (int)($data['https'])
+            'https'      => (int)($data['https']),
+            'both'      => (int)($data['both'])
         );
     }
 
@@ -85,7 +89,7 @@ class CDN_Enabler_Settings
     * settings page
     *
     * @since   0.0.1
-    * @change  1.0.3
+    * @change  1.0.5
     *
     * @return  void
     */
@@ -184,6 +188,20 @@ class CDN_Enabler_Settings
                                 <label for="cdn_enabler_https">
                                     <input type="checkbox" name="cdn_enabler[https]" id="cdn_enabler_https" value="1" <?php checked(1, $options['https']) ?> />
                                     <?php _e("Enable CDN for HTTPS connections (default: disabled).", "cdn-enabler"); ?>
+                                </label>
+                            </fieldset>
+                        </td>
+                    </tr>
+                    
+                    <tr valign="top">
+                        <th scope="row">
+                            <?php _e("CDN Both", "cdn-enabler"); ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label for="cdn_enabler_both">
+                                    <input type="checkbox" name="cdn_enabler[both]" id="cdn_enabler_both" value="1" <?php checked(1, $options['both']) ?> />
+                                    <?php _e("Enable CDN for both HTTP and HTTPS urls (default: disabled).", "cdn-enabler"); ?>
                                 </label>
                             </fieldset>
                         </td>
