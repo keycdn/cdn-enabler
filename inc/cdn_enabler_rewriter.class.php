@@ -15,21 +15,23 @@ class CDN_Enabler_Rewriter
 	var $excludes = array(); // excludes
 	var $relative = false; // use CDN on relative paths
 	var $https = false; // use CDN on HTTPS
+	var $both = false; // replace both http and https urls
 
     /**
 	* constructor
 	*
 	* @since   0.0.1
-	* @change  1.0.3
+	* @change  1.0.5
 	*/
 
-	function __construct($blog_url, $cdn_url, $dirs, array $excludes, $relative, $https) {
+	function __construct($blog_url, $cdn_url, $dirs, array $excludes, $relative, $https, $both) {
 		$this->blog_url = $blog_url;
 		$this->cdn_url = $cdn_url;
 		$this->dirs	= $dirs;
 		$this->excludes = $excludes;
 		$this->relative	= $relative;
 		$this->https = $https;
+		$this->both = $both;
 	}
 
 
@@ -53,12 +55,24 @@ class CDN_Enabler_Rewriter
 		return false;
 	}
 
+    /**
+    * relative url
+    *
+    * @since   1.0.5
+    * @change  1.0.5
+    *
+    * @param   string  $url a full url
+    * @return  string  protocol relative url
+    */
+	protected function relative_url($url) {
+		return substr($url, strpos($url, '//'));
+	}
 
     /**
     * rewrite url
     *
     * @since   0.0.1
-    * @change  0.0.1
+    * @change  1.0.5
     *
     * @param   string  $asset  current asset
     * @return  string  updated url if not excluded
@@ -68,11 +82,17 @@ class CDN_Enabler_Rewriter
 		if ($this->exclude_asset($asset[0])) {
 			return $asset[0];
 		}
-		$blog_url = $this->blog_url;
+		if ($this->both) {
+			$blog_url = $this->relative_url($this->blog_url);
+			$cdn_url = $this->relative_url($this->cdn_url);
+		} else {
+			$blog_url = $this->blog_url;
+			$cdn_url = $this->cdn_url;
+		}
 
         // check if not a relative path
 		if (!$this->relative || strstr($asset[0], $blog_url)) {
-			return str_replace($blog_url, $this->cdn_url, $asset[0]);
+			return str_replace($blog_url, $cdn_url, $asset[0]);
 		}
 
 		return $this->cdn_url . $asset[0];
@@ -104,7 +124,7 @@ class CDN_Enabler_Rewriter
     * rewrite url
     *
     * @since   0.0.1
-    * @change  1.0.1
+    * @change  1.0.5
     *
     * @param   string  $html  current raw HTML doc
     * @return  string  updated HTML doc with CDN links
@@ -118,7 +138,7 @@ class CDN_Enabler_Rewriter
 
         // get dir scope in regex format
 		$dirs = $this->get_dir_scope();
-        $blog_url = quotemeta($this->blog_url);
+		$blog_url = $this->both ? 'https?:'.$this->relative_url(quotemeta($this->blog_url)) : quotemeta($this->blog_url);
 
 		// regex rule start
 		$regex_rule = '#(?<=[(\"\'])';

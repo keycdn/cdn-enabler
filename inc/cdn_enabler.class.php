@@ -133,7 +133,7 @@ class CDN_Enabler
 	* run activation hook
 	*
 	* @since   0.0.1
-	* @change  1.0.3
+	* @change  1.0.5
 	*/
 
 	public static function handle_activation_hook() {
@@ -144,7 +144,8 @@ class CDN_Enabler
                 'dirs' => 'wp-content,wp-includes',
                 'excludes' => '.php',
                 'relative' => '1',
-                'https' => ''
+                'https' => '',
+                'both' => ''
             )
         );
 	}
@@ -194,7 +195,7 @@ class CDN_Enabler
 	* return plugin options
 	*
 	* @since   0.0.1
-	* @change  1.0.3
+	* @change  1.0.5
 	*
 	* @return  array  $diff  data pairs
 	*/
@@ -207,7 +208,8 @@ class CDN_Enabler
                 'dirs' => 'wp-content,wp-includes',
                 'excludes' => '.php',
                 'relative' => 1,
-                'https' => 0
+                'https' => 0,
+                'both' => 0
 			)
 		);
 	}
@@ -217,7 +219,7 @@ class CDN_Enabler
 	* run rewrite hook
 	*
 	* @since   0.0.1
-	* @change  1.0.3
+	* @change  1.0.5
 	*/
 
     public static function handle_rewrite_hook() {
@@ -236,7 +238,8 @@ class CDN_Enabler
     		$options['dirs'],
     		$excludes,
     		$options['relative'],
-    		$options['https']
+    		$options['https'],
+    		$options['both']
     	);
     	ob_start(
             array(&$rewriter, 'rewrite')
