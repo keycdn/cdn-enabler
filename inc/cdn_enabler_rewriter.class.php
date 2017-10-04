@@ -8,29 +8,42 @@
 
 class CDN_Enabler_Rewriter
 {
-	var $blog_url = null; // origin URL
-	var $cdn_url = null; // CDN URL
+	var $blog_url       = null;    // origin URL
+	var $cdn_url        = null;    // CDN URL
 
-	var $dirs = null; // included directories
-	var $excludes = array(); // excludes
-	var $relative = false; // use CDN on relative paths
-	var $https = false; // use CDN on HTTPS
+	var $dirs           = null;    // included directories
+	var $excludes       = array(); // excludes
+	var $relative       = false;   // use CDN on relative paths
+	var $https          = false;   // use CDN on HTTPS
+    var $keycdn_api_key = null;    // optional API key for KeyCDN
+    var $keycdn_zone_id = null;    // optional KeyCDN Zone ID
 
     /**
 	* constructor
 	*
 	* @since   0.0.1
-	* @change  1.0.3
+	* @change  1.0.5
 	*/
 
-	function __construct($blog_url, $cdn_url, $dirs, array $excludes, $relative, $https) {
-		$this->blog_url = $blog_url;
-		$this->cdn_url = $cdn_url;
-		$this->dirs	= $dirs;
-		$this->excludes = $excludes;
-		$this->relative	= $relative;
-		$this->https = $https;
-	}
+	function __construct(
+            $blog_url,
+            $cdn_url,
+            $dirs,
+            array $excludes,
+            $relative,
+            $https,
+            $keycdn_api_key,
+            $keycdn_zone_id
+        ) {
+		$this->blog_url       = $blog_url;
+		$this->cdn_url        = $cdn_url;
+		$this->dirs	          = $dirs;
+		$this->excludes       = $excludes;
+		$this->relative	      = $relative;
+		$this->https          = $https;
+        $this->keycdn_api_key = $keycdn_api_key;
+        $this->keycdn_zone_id = $keycdn_zone_id;
+    }
 
 
     /**
@@ -55,10 +68,24 @@ class CDN_Enabler_Rewriter
 
 
     /**
+    * relative url
+    *
+    * @since   1.0.5
+    * @change  1.0.5
+    *
+    * @param   string  $url a full url
+    * @return  string  protocol relative url
+    */
+    protected function relative_url($url) {
+        return substr($url, strpos($url, '//'));
+    }
+
+
+    /**
     * rewrite url
     *
     * @since   0.0.1
-    * @change  0.0.1
+    * @change  1.0.5
     *
     * @param   string  $asset  current asset
     * @return  string  updated url if not excluded
@@ -68,13 +95,36 @@ class CDN_Enabler_Rewriter
 		if ($this->exclude_asset($asset[0])) {
 			return $asset[0];
 		}
-		$blog_url = $this->blog_url;
+        // Don't rewrite if in preview mode
+        if ( is_admin_bar_showing()
+                and array_key_exists('preview', $_GET)
+                and $_GET['preview'] == 'true' )
+        {
+            return $asset[0];
+        }
+
+        $blog_url = $this->relative_url($this->blog_url);
+        $subst_urls = [ 'http:'.$blog_url ];
+
+        // rewrite both http and https URLs if we ticked 'enable CDN for HTTPS connections'
+        if ($this->https) {
+            $subst_urls = [
+                'http:'.$blog_url,
+                'https:'.$blog_url
+            ];
+        }
+
+        // is it a protocol independent URL?
+        if (0 == strpos($asset[0], '//')) {
+            return str_replace($blog_url, $this->cdn_url, $asset[0]);
+        }
 
         // check if not a relative path
 		if (!$this->relative || strstr($asset[0], $blog_url)) {
-			return str_replace($blog_url, $this->cdn_url, $asset[0]);
+            return str_replace($subst_urls, $this->cdn_url, $asset[0]);
 		}
 
+        // relative URL
 		return $this->cdn_url . $asset[0];
 	}
 
@@ -104,7 +154,7 @@ class CDN_Enabler_Rewriter
     * rewrite url
     *
     * @since   0.0.1
-    * @change  1.0.1
+    * @change  1.0.5
     *
     * @param   string  $html  current raw HTML doc
     * @return  string  updated HTML doc with CDN links
@@ -118,7 +168,9 @@ class CDN_Enabler_Rewriter
 
         // get dir scope in regex format
 		$dirs = $this->get_dir_scope();
-        $blog_url = quotemeta($this->blog_url);
+        $blog_url = $this->https
+            ? '(https?:|)'.$this->relative_url(quotemeta($this->blog_url))
+            : '(http:|)'.$this->relative_url(quotemeta($this->blog_url));
 
 		// regex rule start
 		$regex_rule = '#(?<=[(\"\'])';
