@@ -30,7 +30,6 @@ class CDN_Enabler
 	*/
 
 	public function __construct() {
-
         /* CDN rewriter hook */
         add_action(
             'template_redirect',
@@ -79,7 +78,160 @@ class CDN_Enabler
             )
         );
 
+        /* add admin purge link */
+        add_action(
+            'admin_bar_menu',
+            array(
+                __CLASS__,
+                'add_admin_links'
+            ),
+            90
+        );
+        /* process purge request */
+        add_action(
+            'init',
+            array(
+                __CLASS__,
+                'process_purge_request'
+            )
+        );
+    }
+
+
+    /**
+    * add Zone purge link
+    *
+    * @since   1.0.5
+    * @change  1.0.5
+    *
+    * @hook    mixed
+    *
+    * @param   object  menu properties
+    */
+
+    public static function add_admin_links($wp_admin_bar) {
+        $options = self::get_options();
+
+        // check user role
+        if ( ! is_admin_bar_showing()) {
+            return;
+        }
+
+        // verify Zone settings are set
+        if ( ! is_int($options['keycdn_zone_id'])
+             or $options['keycdn_zone_id'] <= 0 ) {
+            return;
+        }
+        if ( ! array_key_exists('keycdn_api_key', $options)
+             or strlen($options['keycdn_api_key']) < 20 ) {
+            return;
+        }
+
+        // add admin purge link
+        $wp_admin_bar->add_menu(
+            array(
+                'id'      => 'purge-cdn',
+                'href'   => wp_nonce_url( add_query_arg('_cdn', 'purge'), '_cdn__purge_nonce'),
+                'parent' => 'top-secondary',
+                'title'     => '<span class="ab-item">'.esc_html__('Purge CDN', 'cdn-enabler').'</span>',
+                'meta'   => array( 'title' => esc_html__('Purge CDN', 'cdn-enabler') )
+            )
+        );
+
+        if ( ! is_admin() ) {
+            // add admin purge link
+            $wp_admin_bar->add_menu(
+                array(
+                    'id'      => 'purge-cdn',
+                    'href'   => wp_nonce_url( add_query_arg('_cdn', 'purge'), '_cdn__purge_nonce'),
+                    'parent' => 'top-secondary',
+                    'title'     => '<span class="ab-item">'.esc_html__('Purge CDN', 'cdn-enabler').'</span>',
+                    'meta'   => array( 'title' => esc_html__('Purge CDN', 'cdn-enabler') )
+                )
+            );
+        }
 	}
+
+
+    /**
+    * process purge request
+    *
+    * @since   1.0.5
+    * @change  1.0.5
+    *
+    * @param   array  $data  array of metadata
+    */
+    public static function process_purge_request($data) {
+        $options = self::get_options();
+
+        // check if clear request
+        if ( empty($_GET['_cdn']) OR $_GET['_cdn'] !== 'purge' ) {
+            return;
+        }
+
+        // validate nonce
+        if ( empty($_GET['_wpnonce']) OR ! wp_verify_nonce($_GET['_wpnonce'], '_cdn__purge_nonce') ) {
+            return;
+        }
+
+        // check user role
+        if ( ! is_admin_bar_showing() ) {
+            return;
+        }
+
+        // load if network
+        if ( ! function_exists('is_plugin_active_for_network') ) {
+            require_once( ABSPATH. 'wp-admin/includes/plugin.php' );
+        }
+
+        // API call to purge zone
+        $response = wp_remote_get( 'https://api.keycdn.com/zones/purge/'. $options['keycdn_zone_id'] .'.json',
+                array(
+                    'timeout' => 20,
+                    'headers' => array(
+                        'Authorization' => 'Basic ' . base64_encode( $options['keycdn_api_key'] . ':' )
+                    )
+                ));
+
+        // check results - error connecting
+        if ( is_wp_error( $response ) ) {
+            printf(
+                '<div class="notice notice-error is-dismissible"><p>%s</p></div>',
+                esc_html__('Error connecting to API - '. $response->get_error_message(), 'cdn-enabler')
+            );
+
+            return;
+        }
+
+        // check HTTP response
+        if ( is_array( $response ) and is_admin_bar_showing()) {
+            $json = json_decode($response['body'], true);
+
+            // success
+            if ( wp_remote_retrieve_response_code( $response ) == 200 ) {
+                printf(
+                    '<div class="notice notice-success is-dismissible"><p>%s</p></div>',
+                    esc_html__($json['description'], 'cdn-enabler')
+                );
+                return;
+            }
+
+            // API call returned != 200 and also a status message
+            if ( array_key_exists('status', $json) and $json['status'] != "" ) {
+                printf(
+                    '<div class="notice notice-error is-dismissible"><p>%s</p></div>',
+                    esc_html__('HTTP returned '. wp_remote_retrieve_response_code( $response ) .': '.
+                        $json['description'], 'cdn-enabler')
+                );
+            } else {
+                // Something else went wrong - show HTTP error code
+                printf(
+                    '<div class="notice notice-error is-dismissible"><p>%s</p></div>',
+                    esc_html__('HTTP returned '. wp_remote_retrieve_response_code( $response ) .':')
+                );
+            }
+        }
+    }
 
 
 
@@ -133,18 +285,20 @@ class CDN_Enabler
 	* run activation hook
 	*
 	* @since   0.0.1
-	* @change  1.0.3
+	* @change  1.0.5
 	*/
 
 	public static function handle_activation_hook() {
         add_option(
             'cdn_enabler',
             array(
-                'url' => get_option('home'),
-                'dirs' => 'wp-content,wp-includes',
-                'excludes' => '.php',
-                'relative' => '1',
-                'https' => ''
+                'url'            => get_option('home'),
+                'dirs'           => 'wp-content,wp-includes',
+                'excludes'       => '.php',
+                'relative'       => '1',
+                'https'          => '',
+                'keycdn_api_key' => '',
+                'keycdn_zone_id' => ''
             )
         );
 	}
@@ -181,7 +335,6 @@ class CDN_Enabler
 	*/
 
 	public static function register_textdomain() {
-
 		load_plugin_textdomain(
 			'cdn-enabler',
 			false,
@@ -194,7 +347,7 @@ class CDN_Enabler
 	* return plugin options
 	*
 	* @since   0.0.1
-	* @change  1.0.3
+	* @change  1.0.5
 	*
 	* @return  array  $diff  data pairs
 	*/
@@ -203,11 +356,13 @@ class CDN_Enabler
 		return wp_parse_args(
 			get_option('cdn_enabler'),
 			array(
-                'url' => get_option('home'),
-                'dirs' => 'wp-content,wp-includes',
-                'excludes' => '.php',
-                'relative' => 1,
-                'https' => 0
+                'url'             => get_option('home'),
+                'dirs'            => 'wp-content,wp-includes',
+                'excludes'        => '.php',
+                'relative'        => 1,
+                'https'           => 0,
+                'keycdn_api_key'  => '',
+                'keycdn_zone_id'  => ''
 			)
 		);
 	}
@@ -217,7 +372,7 @@ class CDN_Enabler
 	* run rewrite hook
 	*
 	* @since   0.0.1
-	* @change  1.0.3
+	* @change  1.0.5
 	*/
 
     public static function handle_rewrite_hook() {
@@ -236,7 +391,9 @@ class CDN_Enabler
     		$options['dirs'],
     		$excludes,
     		$options['relative'],
-    		$options['https']
+            $options['https'],
+            $options['keycdn_api_key'],
+            $options['keycdn_zone_id']
     	);
     	ob_start(
             array(&$rewriter, 'rewrite')

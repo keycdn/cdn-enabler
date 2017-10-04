@@ -48,13 +48,21 @@ class CDN_Enabler_Settings
         if (!isset($data['https'])) {
             $data['https'] = 0;
         }
+        if (!isset($data['keycdn_api_key'])) {
+            $data['keycdn_api_key'] = "";
+        }
+        if (!isset($data['keycdn_zone_id'])) {
+            $data['keycdn_zone_id'] = "";
+        }
 
         return array(
-            'url'        => esc_url($data['url']),
-            'dirs'       => esc_attr($data['dirs']),
-            'excludes'   => esc_attr($data['excludes']),
-            'relative'   => (int)($data['relative']),
-            'https'      => (int)($data['https'])
+            'url'             => esc_url($data['url']),
+            'dirs'            => esc_attr($data['dirs']),
+            'excludes'        => esc_attr($data['excludes']),
+            'relative'        => (int)($data['relative']),
+            'https'           => (int)($data['https']),
+            'keycdn_api_key'  => esc_attr($data['keycdn_api_key']),
+            'keycdn_zone_id'  => (int)($data['keycdn_zone_id'])
         );
     }
 
@@ -85,7 +93,7 @@ class CDN_Enabler_Settings
     * settings page
     *
     * @since   0.0.1
-    * @change  1.0.3
+    * @change  1.0.5
     *
     * @return  void
     */
@@ -184,6 +192,38 @@ class CDN_Enabler_Settings
                                 <label for="cdn_enabler_https">
                                     <input type="checkbox" name="cdn_enabler[https]" id="cdn_enabler_https" value="1" <?php checked(1, $options['https']) ?> />
                                     <?php _e("Enable CDN for HTTPS connections (default: disabled).", "cdn-enabler"); ?>
+                                </label>
+                            </fieldset>
+                        </td>
+                    </tr>
+
+                    <tr valign="top">
+                        <th scope="row">
+                            <?php _e("KeyCDN API Key", "cdn-enabler"); ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label for="cdn_enabler_api_key">
+                                    <input type="text" name="cdn_enabler[keycdn_api_key]" id="cdn_enabler_api_key" value="<?php echo $options['keycdn_api_key']; ?>" size="64" class="regular-text code" />
+                                <p class="description">
+                                    <?php _e("KeyCDN API key to purge zone on request", "cdn-enabler"); ?>
+                                </p>
+                                </label>
+                            </fieldset>
+                        </td>
+                    </tr>
+
+                    <tr valign="top">
+                        <th scope="row">
+                            <?php _e("KeyCDN Zone ID", "cdn-enabler"); ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label for="cdn_enabler_zone_id">
+                                    <input type="text" name="cdn_enabler[keycdn_zone_id]" id="cdn_enabler_zone_id" value="<?php echo $options['keycdn_zone_id']; ?>" size="64" class="regular-text code" />
+                                <p class="description">
+                                    <?php _e("KeyCDN Zone ID of the zone to purge on request", "cdn-enabler"); ?>
+                                </p>
                                 </label>
                             </fieldset>
                         </td>
