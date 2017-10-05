@@ -25,7 +25,7 @@ class CDN_Enabler_Settings
                 array(
                     __CLASS__,
                     'validate_settings',
-                    ),
+                    )
                 );
     }
 
@@ -84,7 +84,7 @@ class CDN_Enabler_Settings
                 array(
                     __CLASS__,
                     'settings_page',
-                    ),
+                    )
                 );
     }
 
