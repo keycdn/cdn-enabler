@@ -40,32 +40,32 @@ define('CDN_ENABLER_MIN_WP', '3.8');
 
 /* loader */
 add_action(
-        'plugins_loaded',
-        array(
-            'CDN_Enabler',
-            'instance',
-            )
-        );
+    'plugins_loaded',
+    [
+        'CDN_Enabler',
+        'instance',
+    ]
+);
 
 
 /* uninstall */
 register_uninstall_hook(
-        __FILE__,
-        array(
-            'CDN_Enabler',
-            'handle_uninstall_hook',
-            )
-        );
+    __FILE__,
+    [
+        'CDN_Enabler',
+        'handle_uninstall_hook',
+    ]
+);
 
 
 /* activation */
 register_activation_hook(
-        __FILE__,
-        array(
-            'CDN_Enabler',
-            'handle_activation_hook',
-            )
-        );
+    __FILE__,
+    [
+        'CDN_Enabler',
+        'handle_activation_hook',
+    ]
+);
 
 
 /* autoload init */
@@ -73,13 +73,13 @@ spl_autoload_register('CDN_ENABLER_autoload');
 
 /* autoload funktion */
 function CDN_ENABLER_autoload($class) {
-    if ( in_array($class, array('CDN_Enabler', 'CDN_Enabler_Rewriter', 'CDN_Enabler_Settings')) ) {
+    if ( in_array($class, ['CDN_Enabler', 'CDN_Enabler_Rewriter', 'CDN_Enabler_Settings']) ) {
         require_once(
-                sprintf(
-                    '%s/inc/%s.class.php',
-                    CDN_ENABLER_DIR,
-                    strtolower($class)
-                    )
-                );
+            sprintf(
+                '%s/inc/%s.class.php',
+                CDN_ENABLER_DIR,
+                strtolower($class)
+            )
+        );
     }
 }

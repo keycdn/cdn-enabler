@@ -20,13 +20,13 @@ class CDN_Enabler_Settings
     public static function register_settings()
     {
         register_setting(
-                'cdn_enabler',
-                'cdn_enabler',
-                array(
-                    __CLASS__,
-                    'validate_settings',
-                    ),
-                );
+            'cdn_enabler',
+            'cdn_enabler',
+            [
+                __CLASS__,
+                'validate_settings',
+            ]
+        );
     }
 
 
@@ -55,15 +55,15 @@ class CDN_Enabler_Settings
             $data['keycdn_zone_id'] = "";
         }
 
-        return array(
-                'url'             => esc_url($data['url']),
-                'dirs'            => esc_attr($data['dirs']),
-                'excludes'        => esc_attr($data['excludes']),
-                'relative'        => (int)($data['relative']),
-                'https'           => (int)($data['https']),
-                'keycdn_api_key'  => esc_attr($data['keycdn_api_key']),
-                'keycdn_zone_id'  => (int)($data['keycdn_zone_id']),
-                );
+        return [
+            'url'             => esc_url($data['url']),
+            'dirs'            => esc_attr($data['dirs']),
+            'excludes'        => esc_attr($data['excludes']),
+            'relative'        => (int)($data['relative']),
+            'https'           => (int)($data['https']),
+            'keycdn_api_key'  => esc_attr($data['keycdn_api_key']),
+            'keycdn_zone_id'  => (int)($data['keycdn_zone_id']),
+        ];
     }
 
 
@@ -77,15 +77,15 @@ class CDN_Enabler_Settings
     public static function add_settings_page()
     {
         $page = add_options_page(
-                'CDN Enabler',
-                'CDN Enabler',
-                'manage_options',
-                'cdn_enabler',
-                array(
-                    __CLASS__,
-                    'settings_page',
-                    ),
-                );
+            'CDN Enabler',
+            'CDN Enabler',
+            'manage_options',
+            'cdn_enabler',
+            [
+                __CLASS__,
+                'settings_page',
+            ]
+        );
     }
 
 

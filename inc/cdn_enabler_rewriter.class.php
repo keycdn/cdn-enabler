@@ -12,7 +12,7 @@ class CDN_Enabler_Rewriter
     var $cdn_url        = null;    // CDN URL
 
     var $dirs           = null;    // included directories
-    var $excludes       = array(); // excludes
+    var $excludes       = []; // excludes
     var $relative       = false;   // use CDN on relative paths
     var $https          = false;   // use CDN on HTTPS
     var $keycdn_api_key = null;    // optional API key for KeyCDN
@@ -26,15 +26,15 @@ class CDN_Enabler_Rewriter
      */
 
     function __construct(
-            $blog_url,
-            $cdn_url,
-            $dirs,
-            array $excludes,
-            $relative,
-            $https,
-            $keycdn_api_key,
-            $keycdn_zone_id
-            ) {
+        $blog_url,
+        $cdn_url,
+        $dirs,
+        array $excludes,
+        $relative,
+        $https,
+        $keycdn_api_key,
+        $keycdn_zone_id
+    ) {
         $this->blog_url       = $blog_url;
         $this->cdn_url        = $cdn_url;
         $this->dirs           = $dirs;
@@ -187,7 +187,7 @@ class CDN_Enabler_Rewriter
         $regex_rule .= '/(?:((?:'.$dirs.')[^\"\')]+)|([^/\"\']+\.[^/\"\')]+))(?=[\"\')])#';
 
         // call the cdn rewriter callback
-        $cdn_html = preg_replace_callback($regex_rule, array(&$this, 'rewrite_url'), $html);
+        $cdn_html = preg_replace_callback($regex_rule, [&$this, 'rewrite_url'], $html);
 
         return $cdn_html;
     }
