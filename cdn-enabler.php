@@ -43,7 +43,7 @@ add_action(
         'plugins_loaded',
         array(
             'CDN_Enabler',
-            'instance'
+            'instance',
             )
         );
 
@@ -53,7 +53,7 @@ register_uninstall_hook(
         __FILE__,
         array(
             'CDN_Enabler',
-            'handle_uninstall_hook'
+            'handle_uninstall_hook',
             )
         );
 
@@ -63,7 +63,7 @@ register_activation_hook(
         __FILE__,
         array(
             'CDN_Enabler',
-            'handle_activation_hook'
+            'handle_activation_hook',
             )
         );
 

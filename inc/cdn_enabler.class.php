@@ -298,7 +298,7 @@ class CDN_Enabler
                     'relative'       => '1',
                     'https'          => '',
                     'keycdn_api_key' => '',
-                    'keycdn_zone_id' => ''
+                    'keycdn_zone_id' => '',
                     )
                 );
     }
@@ -362,7 +362,7 @@ class CDN_Enabler
                     'relative'        => 1,
                     'https'           => 0,
                     'keycdn_api_key'  => '',
-                    'keycdn_zone_id'  => ''
+                    'keycdn_zone_id'  => '',
                     )
                 );
     }
@@ -395,9 +395,7 @@ class CDN_Enabler
                 $options['keycdn_api_key'],
                 $options['keycdn_zone_id']
                 );
-        ob_start(
-                array(&$rewriter, 'rewrite')
-                );
+        ob_start(array(&$rewriter, 'rewrite'));
     }
 
 }

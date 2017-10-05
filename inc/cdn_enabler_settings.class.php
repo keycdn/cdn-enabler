@@ -24,8 +24,8 @@ class CDN_Enabler_Settings
                 'cdn_enabler',
                 array(
                     __CLASS__,
-                    'validate_settings'
-                    )
+                    'validate_settings',
+                    ),
                 );
     }
 
@@ -62,7 +62,7 @@ class CDN_Enabler_Settings
                 'relative'        => (int)($data['relative']),
                 'https'           => (int)($data['https']),
                 'keycdn_api_key'  => esc_attr($data['keycdn_api_key']),
-                'keycdn_zone_id'  => (int)($data['keycdn_zone_id'])
+                'keycdn_zone_id'  => (int)($data['keycdn_zone_id']),
                 );
     }
 
@@ -83,8 +83,8 @@ class CDN_Enabler_Settings
                 'cdn_enabler',
                 array(
                     __CLASS__,
-                    'settings_page'
-                    )
+                    'settings_page',
+                    ),
                 );
     }
 

@@ -95,6 +95,7 @@ class CDN_Enabler_Rewriter
         if ($this->exclude_asset($asset[0])) {
             return $asset[0];
         }
+
         // Don't rewrite if in preview mode
         if ( is_admin_bar_showing()
                 and array_key_exists('preview', $_GET)
@@ -110,22 +111,22 @@ class CDN_Enabler_Rewriter
         if ($this->https) {
             $subst_urls = [
                 'http:'.$blog_url,
-                'https:'.$blog_url
+                'https:'.$blog_url,
             ];
         }
 
         // is it a protocol independent URL?
-        if (0 == strpos($asset[0], '//')) {
+        if (strpos($asset[0], '//') === 0) {
             return str_replace($blog_url, $this->cdn_url, $asset[0]);
-    }
+        }
 
-    // check if not a relative path
-    if (!$this->relative || strstr($asset[0], $blog_url)) {
-        return str_replace($subst_urls, $this->cdn_url, $asset[0]);
-    }
+        // check if not a relative path
+        if (!$this->relative || strstr($asset[0], $blog_url)) {
+            return str_replace($subst_urls, $this->cdn_url, $asset[0]);
+        }
 
-    // relative URL
-    return $this->cdn_url . $asset[0];
+        // relative URL
+        return $this->cdn_url . $asset[0];
     }
 
 
@@ -175,19 +176,19 @@ class CDN_Enabler_Rewriter
         // regex rule start
         $regex_rule = '#(?<=[(\"\'])';
 
-                // check if relative paths
-                if ($this->relative) {
-                    $regex_rule .= '(?:'.$blog_url.')?';
-                } else {
-                    $regex_rule .= $blog_url;
-                }
+        // check if relative paths
+        if ($this->relative) {
+            $regex_rule .= '(?:'.$blog_url.')?';
+        } else {
+            $regex_rule .= $blog_url;
+        }
 
-                // regex rule end
-                $regex_rule .= '/(?:((?:'.$dirs.')[^\"\')]+)|([^/\"\']+\.[^/\"\')]+))(?=[\"\')])#';
+        // regex rule end
+        $regex_rule .= '/(?:((?:'.$dirs.')[^\"\')]+)|([^/\"\']+\.[^/\"\')]+))(?=[\"\')])#';
 
-                // call the cdn rewriter callback
-                $cdn_html = preg_replace_callback($regex_rule, array(&$this, 'rewrite_url'), $html);
+        // call the cdn rewriter callback
+        $cdn_html = preg_replace_callback($regex_rule, array(&$this, 'rewrite_url'), $html);
 
-                return $cdn_html;
+        return $cdn_html;
     }
 }
