@@ -47,6 +47,12 @@ The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 
 == Changelog ==
 
+= 1.0.5 =
+* Multiprotocol CDN rewriting
+* Add purging through KeyCDN API
+* Don't rewrite if in admin preview mode
+* Rewrite to HTTPS if enabled and client connects through HTTP
+
 = 1.0.4 =
 * Removed unused code
 
