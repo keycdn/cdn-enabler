@@ -209,17 +209,30 @@ class CDN_Enabler
             $json = json_decode($response['body'], true);
 
             // success
-            if ( wp_remote_retrieve_response_code( $response ) == 200 ) {
+            if ( wp_remote_retrieve_response_code( $response ) == 200
+                    and is_array($json)
+                    and array_key_exists('description', $json) )
+            {
                 printf(
                     '<div class="notice notice-success is-dismissible"><p>%s</p></div>',
                     esc_html__($json['description'], 'cdn-enabler')
                 );
 
                 return;
+            } elseif ( wp_remote_retrieve_response_code( $response ) == 200 ) {
+                // return code 200 but no message
+                printf(
+                    '<div class="notice notice-warning is-dismissible"><p>%s</p></div>',
+                    esc_html__('HTTP returned 200 but no message received.')
+                );
+
+                return;
             }
 
             // API call returned != 200 and also a status message
-            if ( array_key_exists('status', $json) and $json['status'] != "" ) {
+            if ( is_array($json)
+                    and array_key_exists('status', $json)
+                    and $json['status'] != "" ) {
                 printf(
                     '<div class="notice notice-error is-dismissible"><p>%s</p></div>',
                     esc_html__('HTTP returned '. wp_remote_retrieve_response_code( $response ) .': '.$json['description'], 'cdn-enabler')
@@ -228,7 +241,7 @@ class CDN_Enabler
                 // Something else went wrong - show HTTP error code
                 printf(
                     '<div class="notice notice-error is-dismissible"><p>%s</p></div>',
-                    esc_html__('HTTP returned '. wp_remote_retrieve_response_code( $response ) .':')
+                    esc_html__('HTTP returned '. wp_remote_retrieve_response_code( $response ))
                 );
             }
         }
