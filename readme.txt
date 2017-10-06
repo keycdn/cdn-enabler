@@ -1,7 +1,7 @@
 === CDN Enabler - WordPress CDN Plugin ===
 Contributors: keycdn
 Tags: cdn, content delivery network, content distribution network
-Requires at least: 3.8
+Requires at least: 4.6
 Tested up to: 4.8
 Stable tag: trunk
 License: GPLv2 or later
@@ -31,8 +31,8 @@ The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 
 
 = System Requirements =
-* PHP >=5.3
-* WordPress >=3.8
+* PHP >=5.4
+* WordPress >=4.6
 
 
 = Contribute =
