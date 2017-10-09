@@ -93,7 +93,7 @@ class CDN_Enabler_Settings
      * settings page
      *
      * @since   0.0.1
-     * @change  1.0.5
+     * @change  1.0.6
      *
      * @return  void
      */

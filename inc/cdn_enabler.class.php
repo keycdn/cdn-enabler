@@ -102,7 +102,7 @@ class CDN_Enabler
      * add Zone purge link
      *
      * @since   1.0.5
-     * @change  1.0.5
+     * @change  1.0.6
      *
      * @hook    mixed
      *
@@ -157,7 +157,7 @@ class CDN_Enabler
      * process purge request
      *
      * @since   1.0.5
-     * @change  1.0.5
+     * @change  1.0.6
      *
      * @param   array  $data  array of metadata
      */
@@ -244,6 +244,18 @@ class CDN_Enabler
                     esc_html__('HTTP returned '. wp_remote_retrieve_response_code( $response ))
                 );
             }
+        }
+
+
+        if ( ! is_admin() ) {
+            wp_safe_redirect(
+                remove_query_arg(
+                    '_cache',
+                    wp_get_referer()
+                )
+            );
+
+            exit();
         }
     }
 
