@@ -113,7 +113,7 @@ class CDN_Enabler
         $options = self::get_options();
 
         // check user role
-        if ( ! is_admin_bar_showing()) {
+        if ( ! is_admin_bar_showing() or ! apply_filters('user_can_clear_cache', current_user_can('manage_options')) ) {
             return;
         }
 
