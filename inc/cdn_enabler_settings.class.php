@@ -93,7 +93,7 @@ class CDN_Enabler_Settings
      * settings page
      *
      * @since   0.0.1
-     * @change  1.0.5
+     * @change  1.0.6
      *
      * @return  void
      */
@@ -204,7 +204,7 @@ class CDN_Enabler_Settings
                        <td>
                            <fieldset>
                                <label for="cdn_enabler_api_key">
-                                   <input type="text" name="cdn_enabler[keycdn_api_key]" id="cdn_enabler_api_key" value="<?php echo $options['keycdn_api_key']; ?>" size="64" class="regular-text code" />
+                                   <input type="password" name="cdn_enabler[keycdn_api_key]" id="cdn_enabler_api_key" value="<?php echo $options['keycdn_api_key']; ?>" size="64" class="regular-text code" />
                                <p class="description">
                                    <?php _e("KeyCDN API key to purge zone on request", "cdn-enabler"); ?>
                                </p>
