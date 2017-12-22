@@ -56,7 +56,7 @@ class CDN_Enabler_Settings
         }
 
         return [
-            'url'             => esc_url($data['url']),
+            'url'             => esc_textarea($data['url']),
             'dirs'            => esc_attr($data['dirs']),
             'excludes'        => esc_attr($data['excludes']),
             'relative'        => (int)($data['relative']),
@@ -118,16 +118,18 @@ class CDN_Enabler_Settings
 
                    <tr valign="top">
                        <th scope="row">
-                           <?php _e("CDN URL", "cdn-enabler"); ?>
+                           <?php _e("CDN URLs", "cdn-enabler"); ?>
                        </th>
                        <td>
                            <fieldset>
                                <label for="cdn_enabler_url">
-                                   <input type="text" name="cdn_enabler[url]" id="cdn_enabler_url" value="<?php echo $options['url']; ?>" size="64" class="regular-text code" />
+                                   <textarea name="cdn_enabler[url]" id="cdn_enabler_url" class="regular-text code" rows="4"><?php echo $options['url']; ?></textarea>
                                </label>
 
                                <p class="description">
-                                   <?php _e("Enter the CDN URL without trailing", "cdn-enabler"); ?> <code>/</code>
+                                   <?php _e("Enter a CDN URL per line without trailing", "cdn-enabler"); ?> <code>/</code>
+                                   <br/>
+                                   <abbr title="<?php _e("Browsers limit the number of HTTP connections with the same domain name. This restriction is defined in the HTTP specification (RFC2616). Most modern browsers allow six connections per domain. Most older browsers allow only two connections per domain. You can have different CDN URLs pointing to the same server defined by CNAME records.", "cdn-enabler"); ?>"><?php _e("Why more than one CDN URL?", "cdn-enabler"); ?></abbr>
                                </p>
                            </fieldset>
                        </td>

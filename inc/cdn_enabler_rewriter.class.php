@@ -10,6 +10,7 @@ class CDN_Enabler_Rewriter
 {
     var $blog_url       = null;    // origin URL
     var $cdn_url        = null;    // CDN URL
+    var $cdn_count      = null;
 
     var $dirs           = null;    // included directories
     var $excludes       = []; // excludes
@@ -36,7 +37,8 @@ class CDN_Enabler_Rewriter
         $keycdn_zone_id
     ) {
         $this->blog_url       = $blog_url;
-        $this->cdn_url        = $cdn_url;
+        $this->cdn_url        = explode(PHP_EOL, $cdn_url);
+        $this->cdn_count      = count($this->cdn_url);
         $this->dirs           = $dirs;
         $this->excludes       = $excludes;
         $this->relative       = $relative;
@@ -117,16 +119,16 @@ class CDN_Enabler_Rewriter
 
         // is it a protocol independent URL?
         if (strpos($asset[0], '//') === 0) {
-            return str_replace($blog_url, $this->cdn_url, $asset[0]);
+            return str_replace($blog_url, $this->getRandomCDNUrl(), $asset[0]);
         }
 
         // check if not a relative path
         if (!$this->relative || strstr($asset[0], $blog_url)) {
-            return str_replace($subst_urls, $this->cdn_url, $asset[0]);
+            return str_replace($subst_urls, $this->getRandomCDNUrl(), $asset[0]);
         }
 
         // relative URL
-        return $this->cdn_url . $asset[0];
+        return $this->getRandomCDNUrl() . $asset[0];
     }
 
 
@@ -190,5 +192,36 @@ class CDN_Enabler_Rewriter
         $cdn_html = preg_replace_callback($regex_rule, [&$this, 'rewrite_url'], $html);
 
         return $cdn_html;
+    }
+
+
+    /**
+     * get a random cdn url from the list
+     *
+     * @since   1.0.6
+     * @change  1.0.6
+     *
+     * @return  string  random cdn url
+     */    
+
+    private function getRandomCDNUrl(){
+        return trim($this->cdn_url[$this->getRandomCDNIndex()]);
+    }
+
+
+    /**
+     * get a random cdn url index from the list
+     *
+     * @since   1.0.6
+     * @change  1.0.6
+     *
+     * @return  int  random cdn url index
+     */
+
+    private function getRandomCDNIndex(){
+        if($this->cdn_count == 1)
+            return 1;
+
+        return mt_rand(1, $this->cdn_count) - 1;
     }
 }
