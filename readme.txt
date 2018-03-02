@@ -47,6 +47,9 @@ The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 
 == Changelog ==
 
+= 1.0.7 =
+* Minor bug fixes (pass-by-reference)
+
 = 1.0.6 =
 * Minor bug fixes
 * Improved CDN purging
