@@ -85,7 +85,7 @@ class CDN_Enabler_Rewriter
      * rewrite url
      *
      * @since   0.0.1
-     * @change  1.0.5
+     * @change  1.0.7
      *
      * @param   string  $asset  current asset
      * @return  string  updated url if not excluded
@@ -155,7 +155,7 @@ class CDN_Enabler_Rewriter
      * rewrite url
      *
      * @since   0.0.1
-     * @change  1.0.5
+     * @change  1.0.7
      *
      * @param   string  $html  current raw HTML doc
      * @return  string  updated HTML doc with CDN links
