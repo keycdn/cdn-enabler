@@ -89,7 +89,7 @@ class CDN_Enabler
         );
         /* process purge request */
         add_action(
-            'init',
+            'admin_notices',
             [
                 __CLASS__,
                 'process_purge_request',
@@ -110,6 +110,7 @@ class CDN_Enabler
      */
 
     public static function add_admin_links($wp_admin_bar) {
+        global $wp;
         $options = self::get_options();
 
         // check user role
@@ -127,11 +128,20 @@ class CDN_Enabler
             return;
         }
 
+        // redirect to admin page if necessary so we can display notification
+        $current_url = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' .
+                        $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $goto_url = get_admin_url();
+
+        if ( stristr($current_url, get_admin_url()) ) {
+            $goto_url = $current_url;
+        }
+
         // add admin purge link
         $wp_admin_bar->add_menu(
             [
                 'id'      => 'purge-cdn',
-                'href'   => wp_nonce_url( add_query_arg('_cdn', 'purge'), '_cdn__purge_nonce'),
+                'href'   => wp_nonce_url( add_query_arg('_cdn', 'purge', $goto_url), '_cdn__purge_nonce'),
                 'parent' => 'top-secondary',
                 'title'     => '<span class="ab-item">'.esc_html__('Purge CDN', 'cdn-enabler').'</span>',
                 'meta'   => ['title' => esc_html__('Purge CDN', 'cdn-enabler')],
@@ -143,7 +153,7 @@ class CDN_Enabler
             $wp_admin_bar->add_menu(
                 [
                     'id'      => 'purge-cdn',
-                    'href'   => wp_nonce_url( add_query_arg('_cdn', 'purge'), '_cdn__purge_nonce'),
+                    'href'   => wp_nonce_url( add_query_arg('_cdn', 'purge', $goto_url), '_cdn__purge_nonce'),
                     'parent' => 'top-secondary',
                     'title'     => '<span class="ab-item">'.esc_html__('Purge CDN', 'cdn-enabler').'</span>',
                     'meta'   => ['title' => esc_html__('Purge CDN', 'cdn-enabler')],
@@ -207,9 +217,10 @@ class CDN_Enabler
         // check HTTP response
         if ( is_array( $response ) and is_admin_bar_showing()) {
             $json = json_decode($response['body'], true);
+            $rc = wp_remote_retrieve_response_code( $response );
 
             // success
-            if ( wp_remote_retrieve_response_code( $response ) == 200
+            if ( $rc == 200
                     and is_array($json)
                     and array_key_exists('description', $json) )
             {
@@ -219,11 +230,27 @@ class CDN_Enabler
                 );
 
                 return;
-            } elseif ( wp_remote_retrieve_response_code( $response ) == 200 ) {
+            } elseif ( $rc == 200 ) {
                 // return code 200 but no message
                 printf(
                     '<div class="notice notice-warning is-dismissible"><p>%s</p></div>',
                     esc_html__('HTTP returned 200 but no message received.')
+                );
+
+                return;
+            }
+
+            // For some API errors we return custom error messages
+            $custom_messages = array(
+                401 => "invalid API key",
+                403 => "invalid zone id",
+                451 => "too many failed attempts",
+            );
+
+            if ( array_key_exists($rc, $custom_messages) ) {
+                printf(
+                    '<div class="notice notice-error is-dismissible"><p>%s</p></div>',
+                    esc_html__('HTTP returned '. $rc .': '.$custom_messages[$rc], 'cdn-enabler')
                 );
 
                 return;
@@ -235,13 +262,13 @@ class CDN_Enabler
                     and $json['status'] != "" ) {
                 printf(
                     '<div class="notice notice-error is-dismissible"><p>%s</p></div>',
-                    esc_html__('HTTP returned '. wp_remote_retrieve_response_code( $response ) .': '.$json['description'], 'cdn-enabler')
+                    esc_html__('HTTP returned '. $rc .': '.$json['description'], 'cdn-enabler')
                 );
             } else {
                 // Something else went wrong - show HTTP error code
                 printf(
                     '<div class="notice notice-error is-dismissible"><p>%s</p></div>',
-                    esc_html__('HTTP returned '. wp_remote_retrieve_response_code( $response ))
+                    esc_html__('HTTP returned '. $rc)
                 );
             }
         }
