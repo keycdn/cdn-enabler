@@ -99,20 +99,33 @@ class CDN_Enabler_Settings
      */
 
     public static function settings_page()
-    { ?>
+    {
+        $options = CDN_Enabler::get_options()
+
+
+      ?>
         <div class="wrap">
            <h2>
                <?php _e("CDN Enabler Settings", "cdn-enabler"); ?>
            </h2>
 
+            <?php
+                // if (isset($data['keycdn_api_key']) and isset($data['keycdn_zone_id'])) {
+                if (( ! is_int($options['keycdn_zone_id'])
+                        or $options['keycdn_zone_id'] <= 0 )
+                    or
+                    ( ! array_key_exists('keycdn_api_key', $options)
+                        or strlen($options['keycdn_api_key']) < 20 ))
+                {
+                    printf(__('
            <div class="notice notice-info">
-               <p><?php printf( __('Combine CDN Enabler with <b><a href="%s">%s</a></b> for even faster WordPress performance.', 'cdn-enabler'), 'https://www.keycdn.com?utm_source=wp-admin&utm_medium=plugins&utm_campaign=cdn-enabler', 'KeyCDN'); ?></p>
-           </div>
+               <p>Combine CDN Enabler with <b><a href="%s">%s</a></b> for even faster WordPress performance.</p>
+           </div>'), 'https://www.keycdn.com?utm_source=wp-admin&utm_medium=plugins&utm_campaign=cdn-enabler', 'KeyCDN');
+                }
+            ?>
 
            <form method="post" action="options.php">
                <?php settings_fields('cdn_enabler') ?>
-
-               <?php $options = CDN_Enabler::get_options() ?>
 
                <table class="form-table">
 
