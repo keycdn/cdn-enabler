@@ -110,7 +110,6 @@ class CDN_Enabler_Settings
            </h2>
 
             <?php
-                // if (isset($data['keycdn_api_key']) and isset($data['keycdn_zone_id'])) {
                 if (( ! is_int($options['keycdn_zone_id'])
                         or $options['keycdn_zone_id'] <= 0 )
                     or
