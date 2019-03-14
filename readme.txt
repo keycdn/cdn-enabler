@@ -1,5 +1,5 @@
 === CDN Enabler - WordPress CDN Plugin ===
-Contributors: keycdn
+Contributors: keycdn, tmadeira
 Tags: cdn, content delivery network, content distribution network
 Requires at least: 4.6
 Tested up to: 5.0
@@ -46,6 +46,9 @@ The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 
 
 == Changelog ==
+
+= 1.0.9 =
+* Rewrite URLs filtering the_content so that rendered HTML in REST API use CDN
 
 = 1.0.8 =
 * Purge CDN redirects to admin dashboard to avoid error messages
