@@ -6,7 +6,7 @@
    Author: KeyCDN
    Author URI: https://www.keycdn.com
    License: GPLv2 or later
-   Version: 1.0.9
+   Version: 1.0.8
  */
 
 /*
