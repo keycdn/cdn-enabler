@@ -47,6 +47,9 @@ The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 
 == Changelog ==
 
+= 1.0.9 =
+* Rewrite URLs filtering the_content so that rendered HTML in REST API use CDN
+
 = 1.0.8 =
 * Purge CDN redirects to admin dashboard to avoid error messages
 * Better error messages

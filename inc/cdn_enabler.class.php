@@ -26,7 +26,7 @@ class CDN_Enabler
      * constructor
      *
      * @since   0.0.1
-     * @change  1.0.4
+     * @change  1.0.9
      */
 
     public function __construct() {
@@ -37,6 +37,16 @@ class CDN_Enabler
                 __CLASS__,
                 'handle_rewrite_hook',
             ]
+        );
+
+        /* Rewrite rendered content in REST API */
+        add_filter(
+            'the_content',
+            [
+                __CLASS__,
+                'rewrite_the_content',
+            ],
+            100
         );
 
         /* Hooks */
@@ -422,10 +432,36 @@ class CDN_Enabler
 
 
     /**
+     * return new rewriter
+     *
+     * @since   1.0.9
+     * @change  1.0.9
+     *
+     */
+
+    public static function get_rewriter() {
+        $options = self::get_options();
+
+        $excludes = array_map('trim', explode(',', $options['excludes']));
+
+        return new CDN_Enabler_Rewriter(
+            get_option('home'),
+            $options['url'],
+            $options['dirs'],
+            $excludes,
+            $options['relative'],
+            $options['https'],
+            $options['keycdn_api_key'],
+            $options['keycdn_zone_id']
+        );
+    }
+
+
+    /**
      * run rewrite hook
      *
      * @since   0.0.1
-     * @change  1.0.5
+     * @change  1.0.9
      */
 
     public static function handle_rewrite_hook() {
@@ -436,19 +472,21 @@ class CDN_Enabler
             return;
         }
 
-        $excludes = array_map('trim', explode(',', $options['excludes']));
-
-        $rewriter = new CDN_Enabler_Rewriter(
-            get_option('home'),
-            $options['url'],
-            $options['dirs'],
-            $excludes,
-            $options['relative'],
-            $options['https'],
-            $options['keycdn_api_key'],
-            $options['keycdn_zone_id']
-        );
+        $rewriter = self::get_rewriter();
         ob_start(array(&$rewriter, 'rewrite'));
+    }
+
+
+    /**
+     * rewrite html content
+     *
+     * @since   1.0.9
+     * @change  1.0.9
+     */
+
+    public static function rewrite_the_content($html) {
+        $rewriter = self::get_rewriter();
+        return $rewriter->rewrite($html);
     }
 
 }
