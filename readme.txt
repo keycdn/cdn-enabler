@@ -1,5 +1,5 @@
 === CDN Enabler - WordPress CDN Plugin ===
-Contributors: keycdn, tmadeira
+Contributors: keycdn
 Tags: cdn, content delivery network, content distribution network
 Requires at least: 4.6
 Tested up to: 5.0
