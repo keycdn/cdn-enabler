@@ -64,13 +64,20 @@ class CDN_Enabler
                 'register_settings',
             ]
         );
-        add_action(
-            'admin_menu',
-            [
-                'CDN_Enabler_Settings',
-                'add_settings_page',
-            ]
-        );
+        if( !(
+               (defined('CDN_HIDE_IN_ADMIN') && CDN_HIDE_IN_ADMIN) // disabled via global setting
+               ||
+               (strpos( __DIR__, WPMU_PLUGIN_DIR) !== false ) // disable because must-use plugin
+            )) 
+        {
+            add_action(
+                'admin_menu',
+                [
+                    'CDN_Enabler_Settings',
+                    'add_settings_page',
+                ]
+            );
+        }
         add_filter(
             'plugin_action_links_' .CDN_ENABLER_BASE,
             [
