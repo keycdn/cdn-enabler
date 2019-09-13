@@ -37,6 +37,14 @@ define('CDN_ENABLER_DIR', dirname(__FILE__));
 define('CDN_ENABLER_BASE', plugin_basename(__FILE__));
 define('CDN_ENABLER_MIN_WP', '3.8');
 
+/* initialize missing configuration constants */
+defined('CDN_URL')        or define('CDN_URL', null);
+defined('CDN_DIRS')       or define('CDN_DIRS', null);
+defined('CDN_EXCLUDES')   or define('CDN_EXCLUDES', null);
+defined('CDN_RELATIVE')   or define('CDN_RELATIVE', null);
+defined('CDN_HTTPS')      or define('CDN_HTTPS', null);
+defined('KEYCDN_API_KEY') or define('KEYCDN_API_KEY', null);
+defined('KEYCDN_ZONE_ID') or define('KEYCDN_ZONE_ID', null);
 
 /* loader */
 add_action(

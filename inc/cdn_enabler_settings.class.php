@@ -135,7 +135,7 @@ class CDN_Enabler_Settings
                        <td>
                            <fieldset>
                                <label for="cdn_enabler_url">
-                                   <input type="text" name="cdn_enabler[url]" id="cdn_enabler_url" value="<?php echo $options['url']; ?>" size="64" class="regular-text code" />
+                                   <input type="text" name="cdn_enabler[url]" id="cdn_enabler_url" value="<?php echo $options['url']; ?>" size="64" class="regular-text code" <?php if(!empty(CDN_URL)) echo 'readonly="readonly"'; ?> />
                                </label>
 
                                <p class="description">
@@ -152,7 +152,7 @@ class CDN_Enabler_Settings
                        <td>
                            <fieldset>
                                <label for="cdn_enabler_dirs">
-                                   <input type="text" name="cdn_enabler[dirs]" id="cdn_enabler_dirs" value="<?php echo $options['dirs']; ?>" size="64" class="regular-text code" />
+                                   <input type="text" name="cdn_enabler[dirs]" id="cdn_enabler_dirs" value="<?php echo $options['dirs']; ?>" size="64" class="regular-text code" <?php if(!empty(CDN_DIRS)) echo 'readonly="readonly"'; ?> />
                                    <?php _e("Default: <code>wp-content,wp-includes</code>", "cdn-enabler"); ?>
                                </label>
 
@@ -170,7 +170,7 @@ class CDN_Enabler_Settings
                        <td>
                            <fieldset>
                                <label for="cdn_enabler_excludes">
-                                   <input type="text" name="cdn_enabler[excludes]" id="cdn_enabler_excludes" value="<?php echo $options['excludes']; ?>" size="64" class="regular-text code" />
+                                   <input type="text" name="cdn_enabler[excludes]" id="cdn_enabler_excludes" value="<?php echo $options['excludes']; ?>" size="64" class="regular-text code" <?php if(!empty(CDN_EXCLUDES)) echo 'readonly="readonly"'; ?> />
                                    <?php _e("Default: <code>.php</code>", "cdn-enabler"); ?>
                                </label>
 
@@ -188,7 +188,7 @@ class CDN_Enabler_Settings
                        <td>
                            <fieldset>
                                <label for="cdn_enabler_relative">
-                                   <input type="checkbox" name="cdn_enabler[relative]" id="cdn_enabler_relative" value="1" <?php checked(1, $options['relative']) ?> />
+                                   <input type="checkbox" name="cdn_enabler[relative]" id="cdn_enabler_relative" value="1" <?php checked(1, $options['relative']) ?>  <?php if(!empty(CDN_RELATIVE)) echo 'readonly="readonly" onclick="return false;"'; ?> />
                                    <?php _e("Enable CDN for relative paths (default: enabled).", "cdn-enabler"); ?>
                                </label>
                            </fieldset>
@@ -202,7 +202,7 @@ class CDN_Enabler_Settings
                        <td>
                            <fieldset>
                                <label for="cdn_enabler_https">
-                                   <input type="checkbox" name="cdn_enabler[https]" id="cdn_enabler_https" value="1" <?php checked(1, $options['https']) ?> />
+                                   <input type="checkbox" name="cdn_enabler[https]" id="cdn_enabler_https" value="1" <?php checked(1, $options['https']) ?> <?php if(!empty(CDN_HTTPS)) echo 'readonly="readonly" onclick="return false;"'; ?>/>
                                    <?php _e("Enable CDN for HTTPS connections (default: disabled).", "cdn-enabler"); ?>
                                </label>
                            </fieldset>
@@ -216,7 +216,7 @@ class CDN_Enabler_Settings
                        <td>
                            <fieldset>
                                <label for="cdn_enabler_api_key">
-                                   <input type="password" name="cdn_enabler[keycdn_api_key]" id="cdn_enabler_api_key" value="<?php echo $options['keycdn_api_key']; ?>" size="64" class="regular-text code" />
+                                   <input type="password" name="cdn_enabler[keycdn_api_key]" id="cdn_enabler_api_key" value="<?php echo $options['keycdn_api_key']; ?>" size="64" class="regular-text code" <?php if(!empty(KEYCDN_API_KEY)) echo 'readonly="readonly"'; ?> />
                                <p class="description">
                                    <?php _e("KeyCDN API key to purge zone on request", "cdn-enabler"); ?>
                                </p>
@@ -232,7 +232,7 @@ class CDN_Enabler_Settings
                        <td>
                            <fieldset>
                                <label for="cdn_enabler_zone_id">
-                                   <input type="text" name="cdn_enabler[keycdn_zone_id]" id="cdn_enabler_zone_id" value="<?php echo $options['keycdn_zone_id']; ?>" size="64" class="regular-text code" />
+                                   <input type="text" name="cdn_enabler[keycdn_zone_id]" id="cdn_enabler_zone_id" value="<?php echo $options['keycdn_zone_id']; ?>" size="64" class="regular-text code" <?php if(!empty(KEYCDN_ZONE_ID)) echo 'readonly="readonly"'; ?> />
                                <p class="description">
                                    <?php _e("KeyCDN Zone ID of the zone to purge on request", "cdn-enabler"); ?>
                                </p>

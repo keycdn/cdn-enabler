@@ -417,16 +417,27 @@ class CDN_Enabler
 
     public static function get_options() {
         return wp_parse_args(
-            get_option('cdn_enabler'),
-            [
-                'url'             => get_option('home'),
-                'dirs'            => 'wp-content,wp-includes',
-                'excludes'        => '.php',
-                'relative'        => 1,
-                'https'           => 0,
-                'keycdn_api_key'  => '',
-                'keycdn_zone_id'  => '',
-            ]
+            array_filter([
+                'url'             => CDN_URL,
+                'dirs'            => CDN_DIRS,
+                'excludes'        => CDN_EXCLUDES,
+                'relative'        => CDN_RELATIVE,
+                'https'           => CDN_HTTPS,
+                'keycdn_api_key'  => KEYCDN_API_KEY,
+                'keycdn_zone_id'  => KEYCDN_ZONE_ID,
+            ]),
+            wp_parse_args(
+                get_option('cdn_enabler'),
+                [
+                    'url'             => get_option('home'),
+                    'dirs'            => 'wp-content,wp-includes',
+                    'excludes'        => '.php',
+                    'relative'        => 1,
+                    'https'           => 0,
+                    'keycdn_api_key'  => '',
+                    'keycdn_zone_id'  => '',
+                ]
+            )
         );
     }
 
