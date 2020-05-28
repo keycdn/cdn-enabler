@@ -32,7 +32,7 @@ class CDN_Enabler
     public function __construct() {
         /* CDN rewriter hook */
         add_action(
-            'template_redirect',
+            'setup_theme',
             [
                 __CLASS__,
                 'handle_rewrite_hook',
