@@ -1,51 +1,64 @@
-=== CDN Enabler - WordPress CDN Plugin ===
+=== CDN Enabler ===
 Contributors: keycdn
 Tags: cdn, content delivery network, content distribution network
-Requires at least: 4.6
+Requires at least: 5.1
 Tested up to: 5.6
+Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
-
-Enable CDN URLs for your static assets such as images, CSS or JavaScript files.
-
+A content delivery network (CDN) integration plugin for WordPress that rewrites URLs, like for CSS, JavaScript, and images, to be served by a CDN.
 
 
 == Description ==
+CDN Enabler is a simple and easy to use WordPress plugin that rewrites URLs, such as those for CSS, JavaScript, and images, to be served by a content delivery network (CDN). This helps improve site performance, reliability, and scalability by offloading the majority of traffic to a CDN.
 
-A **content delivery network (CDN)** is a network of distributed edge servers, which accelerate your content around the globe. The main benefits of a CDN are *scalability*, *reliability* and *performance*. The **CDN Enabler** plugin helps you to quickly and easily integrate a CDN in WordPress.
-
-= What it does? =
-The CDN Enabler plugin has been developed to link your content to the CDN URLs.
 
 = Features =
-* Link assets to load from a CDN
-* Set included directories
-* Define exclusions (directories or extensions)
-* Enable or disable for HTTPS
-* Supported by [KeyCDN](https://www.keycdn.com "KeyCDN")
-
-> The CDN Enabler works perfectly with the fast and lightweight [WordPress Cache Enabler](https://wordpress.org/plugins/cache-enabler/) plugin.
-
-
-= System Requirements =
-* PHP >=5.6
-* WordPress >=4.6
+* Fast and efficient rewrite engine
+* Manual and WP-CLI cache purging (when a [KeyCDN](https://www.keycdn.com) account is connected)
+* Include URLs in the rewrite by file extensions
+* Exclude URLs in the rewrite by strings
+* WordPress multisite network support
+* Works perfectly with [Cache Enabler](https://wordpress.org/plugins/cache-enabler/) and the majority of third party plugins
 
 
-= Contribute =
-* Anyone is welcome to contribute to the plugin on [GitHub](https://github.com/keycdn/cdn-enabler).
-* Please merge (squash) all your changes into a single commit before you open a pull request.
+= How does the rewriting work? =
+CDN Enabler captures page contents and rewrites URLs to be served by the designated CDN.
 
 
-= Author =
-* [KeyCDN](https://www.keycdn.com "KeyCDN")
+= Documentation =
+* [Installation](https://www.keycdn.com/support/wordpress-cdn-enabler-plugin#installation)
+* [Settings](https://www.keycdn.com/support/wordpress-cdn-enabler-plugin#settings)
+* [Hooks](https://www.keycdn.com/support/wordpress-cdn-enabler-plugin#hooks)
+* [WP-CLI](https://www.keycdn.com/support/wordpress-cdn-enabler-plugin#wp-cli)
+* [FAQ](https://www.keycdn.com/support/wordpress-cdn-enabler-plugin#faq)
 
+
+= Want to help? =
+* Want to file a bug, contribute some code, or improve translations? Excellent! Check out our [GitHub issues](https://github.com/keycdn/cdn-enabler/issues) or [translations](https://translate.wordpress.org/projects/wp-plugins/cdn-enabler/).
+
+
+= Maintainer =
+* [KeyCDN](https://www.keycdn.com)
 
 
 == Changelog ==
+
+= 2.0.0 =
+* Update output buffer timing to start earlier on the `setup_theme` hook instead of the `template_redirect` hook (#23)
+* Update settings (#23)
+* Update requirements check (#23)
+* Update purge CDN cache handling (#23)
+* Add new rewrite engine (#23)
+* Add WP-CLI cache purging (#23)
+* Add configuration validation (#23)
+* Add `cdn_enabler_user_can_purge_cache`, `cdn_enabler_page_contents_before_rewrite`, `cdn_enabler_bypass_rewrite`, `cdn_enabler_site_hostnames`, and `cdn_enabler_rewrite_relative_urls` filter hooks (#23)
+* Fix requirement notices being shown to all users (#23)
+* Fix rewriting limitations (#23)
+* Deprecate `user_can_clear_cache` filter hook in favor of replacement (#23)
 
 = 1.0.9 =
 * Rewrite URLs filtering the_content so that rendered HTML in REST API use CDN

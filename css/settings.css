@@ -1,0 +1,15 @@
+/* settings */
+
+.subheading {
+    font-size: 80% !important;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.subheading:not(:first-of-type) {
+    margin-top: 15px !important;
+}
+
+.code--form-control {
+    line-height: 1.8;
+}
