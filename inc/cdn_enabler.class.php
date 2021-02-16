@@ -342,7 +342,7 @@ final class CDN_Enabler {
      * convert settings to new structure
      *
      * @since   2.0.0
-     * @change  2.0.0
+     * @change  2.0.1
      *
      * @param   array  $settings  settings
      * @return  array  $settings  converted settings if applicable, unchanged otherwise
@@ -353,6 +353,11 @@ final class CDN_Enabler {
         // check if there are any settings to convert
         if ( empty( $settings ) ) {
             return $settings;
+        }
+
+        // updated settings
+        if ( isset( $settings['url'] ) && is_string( $settings['url'] ) && substr_count( $settings['url'], '/' ) > 2 ) {
+            $settings['url'] = '';
         }
 
         // reformatted settings
