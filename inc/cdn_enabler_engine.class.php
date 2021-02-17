@@ -68,28 +68,26 @@ final class CDN_Enabler_Engine {
 
 
     /**
-     * end output buffering and rewrite URLs if applicable
+     * end output buffering and rewrite contents if applicable
      *
      * @since   2.0.0
-     * @change  2.0.0
+     * @change  2.0.1
      *
-     * @param   string   $page_contents  contents of a page from the output buffer
-     * @param   integer  $phase          bitmask of PHP_OUTPUT_HANDLER_* constants
-     * @return  string   $page_contents  maybe rewritten contents of a page from the output buffer
+     * @param   string   $contents                      contents from the output buffer
+     * @param   integer  $phase                         bitmask of PHP_OUTPUT_HANDLER_* constants
+     * @return  string   $contents|$rewritten_contents  rewritten contents if applicable, unchanged otherwise
      */
 
-    private static function end_buffering( $page_contents, $phase ) {
+    private static function end_buffering( $contents, $phase ) {
 
         if ( $phase & PHP_OUTPUT_HANDLER_FINAL || $phase & PHP_OUTPUT_HANDLER_END ) {
             if ( self::bypass_rewrite() ) {
-                return $page_contents;
+                return $contents;
             }
 
-            $page_contents = apply_filters( 'cdn_enabler_page_contents_before_rewrite', $page_contents );
+            $rewritten_contents = self::rewriter( $contents );
 
-            $page_contents = self::rewriter( $page_contents );
-
-            return $page_contents;
+            return $rewritten_contents;
         }
     }
 
@@ -122,10 +120,29 @@ final class CDN_Enabler_Engine {
 
 
     /**
+     * check if administrative interface page
+     *
+     * @since   2.0.1
+     * @change  2.0.1
+     *
+     * @return  boolean  true if administrative interface page, false otherwise
+     */
+
+    private static function is_admin() {
+
+        if ( apply_filters( 'cdn_enabler_exclude_admin', is_admin() ) ) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
      * check if rewrite should be bypassed
      *
      * @since   2.0.0
-     * @change  2.0.0
+     * @change  2.0.1
      *
      * @return  boolean  true if rewrite should be bypassed, false otherwise
      */
@@ -143,7 +160,7 @@ final class CDN_Enabler_Engine {
         }
 
         // check conditional tags
-        if ( is_admin() || is_trackback() || is_robots() || is_preview() ) {
+        if ( self::is_admin() || is_trackback() || is_robots() || is_preview() ) {
             return true;
         }
 
@@ -157,7 +174,7 @@ final class CDN_Enabler_Engine {
      * @since   0.0.1
      * @change  2.0.0
      *
-     * @param   array   $matches   pattern matches from parsed file contents
+     * @param   array   $matches   pattern matches from parsed contents
      * @return  string  $file_url  rewritten file URL if applicable, unchanged otherwise
      */
 
@@ -198,13 +215,13 @@ final class CDN_Enabler_Engine {
 
 
     /**
-     * rewrite file contents
+     * rewrite contents
      *
      * @since   0.0.1
      * @change  2.0.1
      *
-     * @param   string  $contents                      contents of file
-     * @return  string  $contents|$rewritten_contents  rewritten file contents if applicable, unchanged otherwise
+     * @param   string  $contents                      contents to parse
+     * @return  string  $contents|$rewritten_contents  rewritten contents if applicable, unchanged otherwise
      */
 
     public static function rewriter( $contents ) {
@@ -214,11 +231,13 @@ final class CDN_Enabler_Engine {
             return $contents;
         }
 
+        $contents = apply_filters( 'cdn_enabler_contents_before_rewrite', $contents );
+
         $included_file_extensions_regex = quotemeta( implode( '|', explode( PHP_EOL, self::$settings['included_file_extensions'] ) ) );
 
         $urls_regex = '#(?:(?:[\"\'\s=>,]|url\()\K|^)[^\"\'\s(=>,]+(' . $included_file_extensions_regex . ')(\?[^?\\\"\'\s)>,]+)?(?:(?=\/?[?\\\"\'\s)>,])|$)#i';
 
-        $rewritten_contents = preg_replace_callback( $urls_regex, 'self::rewrite_url', $contents );
+        $rewritten_contents = apply_filters( 'cdn_enabler_contents_after_rewrite', preg_replace_callback( $urls_regex, 'self::rewrite_url', $contents ) );
 
         return $rewritten_contents;
     }

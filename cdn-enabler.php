@@ -37,7 +37,7 @@ define( 'CDN_ENABLER_MIN_PHP', '5.6' );
 define( 'CDN_ENABLER_MIN_WP', '5.1' );
 define( 'CDN_ENABLER_FILE', __FILE__ );
 define( 'CDN_ENABLER_BASE', plugin_basename( __FILE__ ) );
-define( 'CDN_ENABLER_DIR', dirname( __FILE__ ) );
+define( 'CDN_ENABLER_DIR', __DIR__ );
 
 // hooks
 add_action( 'plugins_loaded', array( 'CDN_Enabler', 'init' ) );
@@ -57,7 +57,6 @@ function cdn_enabler_autoload( $class_name ) {
         );
     }
 }
-
 
 // load WP-CLI command
 if ( defined( 'WP_CLI' ) && WP_CLI && class_exists( 'WP_CLI' ) ) {
