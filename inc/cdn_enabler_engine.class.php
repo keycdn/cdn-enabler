@@ -172,7 +172,7 @@ final class CDN_Enabler_Engine {
      * rewrite URL to use CDN hostname
      *
      * @since   0.0.1
-     * @change  2.0.0
+     * @change  2.0.1
      *
      * @param   array   $matches   pattern matches from parsed contents
      * @return  string  $file_url  rewritten file URL if applicable, unchanged otherwise
@@ -192,8 +192,8 @@ final class CDN_Enabler_Engine {
 
         // rewrite full URL (e.g. https://www.example.com/wp..., https:\/\/www.example.com\/wp..., or //www.example.com/wp...)
         foreach ( $site_hostnames as $site_hostname ) {
-            if ( stripos( $file_url, '/' . $site_hostname ) !== false ) {
-                return str_replace( $site_hostname, $cdn_hostname, $file_url );
+            if ( stripos( $file_url, '//' . $site_hostname ) !== false || stripos( $file_url, '\/\/' . $site_hostname ) !== false ) {
+                return substr_replace( $file_url, $cdn_hostname, stripos( $file_url, $site_hostname ), strlen( $site_hostname ) );
             }
         }
 
@@ -235,7 +235,7 @@ final class CDN_Enabler_Engine {
 
         $included_file_extensions_regex = quotemeta( implode( '|', explode( PHP_EOL, self::$settings['included_file_extensions'] ) ) );
 
-        $urls_regex = '#(?:(?:[\"\'\s=>,]|url\()\K|^)[^\"\'\s(=>,]+(' . $included_file_extensions_regex . ')(\?[^?\\\"\'\s)>,]+)?(?:(?=\/?[?\\\"\'\s)>,])|$)#i';
+        $urls_regex = '#(?:(?:[\"\'\s=>,]|url\()\K|^)[^\"\'\s(=>,]+(' . $included_file_extensions_regex . ')(\?[^\/?\\\"\'\s)>,]+)?(?:(?=\/?[?\\\"\'\s)>,])|$)#i';
 
         $rewritten_contents = apply_filters( 'cdn_enabler_contents_after_rewrite', preg_replace_callback( $urls_regex, 'self::rewrite_url', $contents ) );
 
