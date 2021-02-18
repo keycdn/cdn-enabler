@@ -873,7 +873,7 @@ final class CDN_Enabler {
      * validate configuration
      *
      * @since   2.0.0
-     * @change  2.0.0
+     * @change  2.0.1
      *
      * @param   array  $validated_settings  validated settings
      * @return  array  $validated_settings  validated settings
@@ -885,12 +885,14 @@ final class CDN_Enabler {
             return $validated_settings;
         }
 
-        // get validation test file
-        $test_file = parse_url( home_url(), PHP_URL_SCHEME ) . '://' . $validated_settings['cdn_hostname'] . '/' . str_replace( ABSPATH, '', CDN_ENABLER_DIR ) . '/css/settings.min.css';
+        // get validation request URL
+        CDN_Enabler_Engine::$settings['cdn_hostname'] = $validated_settings['cdn_hostname'];
+        CDN_Enabler_Engine::$settings['included_file_extensions'] = '.css';
+        $validation_request_url = CDN_Enabler_Engine::rewriter( plugins_url( 'css/settings.min.css', CDN_ENABLER_FILE ) );
 
         // validation request
         $response = wp_remote_get(
-            $test_file,
+            $validation_request_url,
             array(
                 'method'      => 'HEAD',
                 'timeout'     => 15,

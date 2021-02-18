@@ -47,6 +47,13 @@ CDN Enabler captures page contents and rewrites URLs to be served by the designa
 
 == Changelog ==
 
+= 2.0.1 =
+* Update URL matcher in rewriter (#25)
+* Update settings conversion (#26)
+* Add `cdn_enabler_exclude_admin`, `cdn_enabler_contents_before_rewrite`, and `cdn_enabler_contents_after_rewrite` filter hooks (#27)
+* Fix configuration validation for installations in a subdirectory (#27)
+* Remove `cdn_enabler_page_contents_before_rewrite` filter hook in favor of replacement (#27)
+
 = 2.0.0 =
 * Update output buffer timing to start earlier on the `setup_theme` hook instead of the `template_redirect` hook (#23)
 * Update settings (#23)
