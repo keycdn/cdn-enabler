@@ -172,7 +172,7 @@ final class CDN_Enabler_Engine {
      * rewrite URL to use CDN hostname
      *
      * @since   0.0.1
-     * @change  2.0.1
+     * @change  2.0.2
      *
      * @param   array   $matches   pattern matches from parsed contents
      * @return  string  $file_url  rewritten file URL if applicable, unchanged otherwise
