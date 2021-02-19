@@ -47,6 +47,10 @@ CDN Enabler captures page contents and rewrites URLs to be served by the designa
 
 == Changelog ==
 
+= 2.0.2 =
+* Update URL matcher in rewriter (#28)
+* Update full URL rewrite (#28)
+
 = 2.0.1 =
 * Update URL matcher in rewriter (#25)
 * Update settings conversion (#26)
