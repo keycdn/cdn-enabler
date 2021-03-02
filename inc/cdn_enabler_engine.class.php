@@ -71,24 +71,24 @@ final class CDN_Enabler_Engine {
      * end output buffering and rewrite contents if applicable
      *
      * @since   2.0.0
-     * @change  2.0.1
+     * @change  2.0.3
      *
      * @param   string   $contents                      contents from the output buffer
      * @param   integer  $phase                         bitmask of PHP_OUTPUT_HANDLER_* constants
-     * @return  string   $contents|$rewritten_contents  rewritten contents if applicable, unchanged otherwise
+     * @return  string   $contents|$rewritten_contents  rewritten contents from the output buffer if applicable, unchanged otherwise
      */
 
     private static function end_buffering( $contents, $phase ) {
 
         if ( $phase & PHP_OUTPUT_HANDLER_FINAL || $phase & PHP_OUTPUT_HANDLER_END ) {
-            if ( self::bypass_rewrite() ) {
-                return $contents;
+            if ( ! self::bypass_rewrite() ) {
+                $rewritten_contents = self::rewriter( $contents );
+
+                return $rewritten_contents;
             }
-
-            $rewritten_contents = self::rewriter( $contents );
-
-            return $rewritten_contents;
         }
+
+        return $contents;
     }
 
 
