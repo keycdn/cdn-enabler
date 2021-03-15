@@ -295,7 +295,7 @@ final class CDN_Enabler {
      * get default settings
      *
      * @since   2.0.0
-     * @change  2.0.0
+     * @change  2.0.3
      *
      * @param   string  $settings_type                              default `system` settings
      * @return  array   $system_default_settings|$default_settings  only default system settings or all default settings
@@ -317,8 +317,8 @@ final class CDN_Enabler {
                                               '.gif',
                                               '.jpeg',
                                               '.jpg',
-                                              '.json',
                                               '.js',
+                                              '.json',
                                               '.mp3',
                                               '.mp4',
                                               '.pdf',
