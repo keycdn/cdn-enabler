@@ -554,7 +554,7 @@ final class CDN_Enabler {
      * process purge cache request
      *
      * @since   1.0.5
-     * @change  2.0.0
+     * @change  2.0.3
      */
 
     public static function process_purge_cache_request() {
@@ -578,7 +578,7 @@ final class CDN_Enabler {
         $response = self::purge_cdn_cache();
 
         // redirect to same page
-        wp_safe_redirect( wp_get_referer() );
+        wp_safe_redirect( remove_query_arg( array( '_cache', '_action', '_wpnonce' ) ) );
 
         // set transient for purge notice
         if ( is_admin() ) {
