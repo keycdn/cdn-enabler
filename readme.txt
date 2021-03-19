@@ -2,7 +2,7 @@
 Contributors: keycdn
 Tags: cdn, content delivery network, content distribution network
 Requires at least: 5.1
-Tested up to: 5.6
+Tested up to: 5.7
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -46,6 +46,10 @@ CDN Enabler captures page contents and rewrites URLs to be served by the designa
 
 
 == Changelog ==
+
+= 2.0.3 =
+* Update output buffer handling (#29)
+* Fix purge cache request handling (#31)
 
 = 2.0.2 =
 * Update URL matcher in rewriter (#28)
