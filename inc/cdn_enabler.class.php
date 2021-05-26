@@ -239,18 +239,19 @@ final class CDN_Enabler {
      * get blog IDs
      *
      * @since   2.0.0
-     * @change  2.0.0
+     * @change  2.0.4
      *
      * @return  array  $blog_ids  blog IDs
      */
 
     private static function get_blog_ids() {
 
-        $blog_ids = array( '1' );
+        $blog_ids = array( 1 );
 
         if ( is_multisite() ) {
             global $wpdb;
-            $blog_ids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+
+            $blog_ids = array_map( 'absint', $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" ) );
         }
 
         return $blog_ids;
