@@ -171,7 +171,7 @@ final class CDN_Enabler {
      * enter each site
      *
      * @since   2.0.0
-     * @change  2.0.0
+     * @change  2.0.4
      *
      * @param   boolean  $network          whether or not each site in network
      * @param   string   $callback         callback function
@@ -185,14 +185,16 @@ final class CDN_Enabler {
 
         if ( $network ) {
             $blog_ids = self::get_blog_ids();
+
             // switch to each site in network
             foreach ( $blog_ids as $blog_id ) {
                 switch_to_blog( $blog_id );
-                $callback_return[] = (int) call_user_func_array( $callback, $callback_params );
+                $callback_return[ $blog_id ] = call_user_func_array( $callback, $callback_params );
                 restore_current_blog();
             }
         } else {
-            $callback_return[] = (int) call_user_func_array( $callback, $callback_params );
+            $blog_id = 1;
+            $callback_return[ $blog_id ] = call_user_func_array( $callback, $callback_params );
         }
 
         return $callback_return;
@@ -853,7 +855,7 @@ final class CDN_Enabler {
      * validate Zone ID
      *
      * @since   2.0.0
-     * @change  2.0.0
+     * @change  2.0.4
      *
      * @param   string   $zone_id            Zone ID
      * @return  integer  $validated_zone_id  validated Zone ID
@@ -862,7 +864,7 @@ final class CDN_Enabler {
     private static function validate_zone_id( $zone_id ) {
 
         $zone_id = sanitize_text_field( $zone_id );
-        $zone_id = abs( (int) $zone_id );
+        $zone_id = absint( $zone_id );
         $validated_zone_id = ( $zone_id === 0 ) ? '' : $zone_id;
 
         return $validated_zone_id;
