@@ -124,7 +124,7 @@ final class CDN_Enabler {
      * add or update backend requirements
      *
      * @since   2.0.0
-     * @change  2.0.0
+     * @change  2.0.4
      *
      * @return  array  $new_option_value  new or current database option value
      */
@@ -135,13 +135,13 @@ final class CDN_Enabler {
         $old_option_value = get_option( 'cdn_enabler', array() );
 
         // maybe convert old settings to new settings
-        $old_option_value = self::convert_settings( $old_option_value );
+        $new_option_value = self::convert_settings( $old_option_value );
 
         // update default system settings
-        $old_option_value = wp_parse_args( self::get_default_settings( 'system' ), $old_option_value );
+        $new_option_value = wp_parse_args( self::get_default_settings( 'system' ), $new_option_value );
 
         // merge defined settings into default settings
-        $new_option_value = wp_parse_args( $old_option_value, self::get_default_settings() );
+        $new_option_value = wp_parse_args( $new_option_value, self::get_default_settings() );
 
         // validate settings
         $new_option_value = self::validate_settings( $new_option_value );
