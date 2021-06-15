@@ -802,7 +802,7 @@ final class CDN_Enabler {
      * validate CDN hostname
      *
      * @since   2.0.0
-     * @change  2.0.0
+     * @change  2.0.4
      *
      * @param   string  $cdn_hostname            CDN hostname
      * @return  string  $validated_cdn_hostname  validated CDN hostname
@@ -810,7 +810,7 @@ final class CDN_Enabler {
 
     private static function validate_cdn_hostname( $cdn_hostname ) {
 
-        $cdn_url = esc_url_raw( $cdn_hostname, array( 'http', 'https' ) );
+        $cdn_url = esc_url_raw( trim( $cdn_hostname ), array( 'http', 'https' ) );
         $validated_cdn_hostname = strtolower( (string) parse_url( $cdn_url, PHP_URL_HOST ) );
 
         return $validated_cdn_hostname;
