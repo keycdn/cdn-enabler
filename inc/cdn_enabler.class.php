@@ -14,7 +14,7 @@ final class CDN_Enabler {
     /**
      * initialize plugin
      *
-     * @since   0.0.1
+     * @since   2.0.0
      * @change  2.0.0
      */
 
@@ -66,7 +66,7 @@ final class CDN_Enabler {
     /**
      * activation hook
      *
-     * @since   0.0.1
+     * @since   2.0.0
      * @change  2.0.0
      *
      * @param   boolean  $network_wide  network activated
@@ -454,7 +454,7 @@ final class CDN_Enabler {
     /**
      * add admin bar items
      *
-     * @since   1.0.5
+     * @since   2.0.0
      * @change  2.0.0
      *
      * @param   object  $wp_admin_bar  menu properties
@@ -556,7 +556,7 @@ final class CDN_Enabler {
     /**
      * process purge cache request
      *
-     * @since   1.0.5
+     * @since   2.0.0
      * @change  2.0.3
      */
 
@@ -732,7 +732,7 @@ final class CDN_Enabler {
     /**
      * check plugin requirements
      *
-     * @since   0.0.1
+     * @since   2.0.0
      * @change  2.0.0
      */
 
@@ -955,7 +955,7 @@ final class CDN_Enabler {
     /**
      * validate settings
      *
-     * @since   0.0.1
+     * @since   2.0.0
      * @change  2.0.0
      *
      * @param   array  $settings            user defined settings
@@ -987,7 +987,7 @@ final class CDN_Enabler {
     /**
      * settings page
      *
-     * @since   0.0.1
+     * @since   2.0.0
      * @change  2.0.0
      */
 

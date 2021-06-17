@@ -171,7 +171,7 @@ final class CDN_Enabler_Engine {
     /**
      * rewrite URL to use CDN hostname
      *
-     * @since   0.0.1
+     * @since   2.0.0
      * @change  2.0.2
      *
      * @param   array   $matches   pattern matches from parsed contents
@@ -217,7 +217,7 @@ final class CDN_Enabler_Engine {
     /**
      * rewrite contents
      *
-     * @since   0.0.1
+     * @since   2.0.0
      * @change  2.0.4
      *
      * @param   string  $contents                      contents to parse
