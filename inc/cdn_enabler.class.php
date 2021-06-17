@@ -876,7 +876,7 @@ final class CDN_Enabler {
      * validate configuration
      *
      * @since   2.0.0
-     * @change  2.0.1
+     * @change  2.0.4
      *
      * @param   array  $validated_settings  validated settings
      * @return  array  $validated_settings  validated settings
@@ -900,6 +900,7 @@ final class CDN_Enabler {
                 'method'      => 'HEAD',
                 'timeout'     => 15,
                 'httpversion' => '1.1',
+                'headers'     => array( 'Referer' => home_url() ),
             )
         );
 
