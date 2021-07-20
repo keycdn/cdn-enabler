@@ -853,13 +853,13 @@ final class CDN_Enabler {
 
 
     /**
-     * validate Zone ID
+     * validate KeyCDN Zone ID
      *
      * @since   2.0.0
      * @change  2.0.4
      *
-     * @param   string   $zone_id            Zone ID
-     * @return  integer  $validated_zone_id  validated Zone ID
+     * @param   string   $zone_id            KeyCDN Zone ID
+     * @return  integer  $validated_zone_id  validated KeyCDN Zone ID
      */
 
     private static function validate_zone_id( $zone_id ) {
