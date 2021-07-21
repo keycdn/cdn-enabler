@@ -6,7 +6,7 @@ Description: Simple and fast WordPress content delivery network (CDN) integratio
 Author: KeyCDN
 Author URI: https://www.keycdn.com
 License: GPLv2 or later
-Version: 2.0.3
+Version: 2.0.4
 */
 
 /*
@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // constants
-define( 'CDN_ENABLER_VERSION', '2.0.3' );
+define( 'CDN_ENABLER_VERSION', '2.0.4' );
 define( 'CDN_ENABLER_MIN_PHP', '5.6' );
 define( 'CDN_ENABLER_MIN_WP', '5.1' );
 define( 'CDN_ENABLER_FILE', __FILE__ );
