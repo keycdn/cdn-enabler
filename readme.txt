@@ -2,7 +2,7 @@
 Contributors: keycdn
 Tags: cdn, content delivery network, content distribution network
 Requires at least: 5.1
-Tested up to: 5.7
+Tested up to: 5.8
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -22,6 +22,7 @@ CDN Enabler is a simple and easy to use WordPress plugin that rewrites URLs, suc
 * Include URLs in the rewrite by file extensions
 * Exclude URLs in the rewrite by strings
 * WordPress multisite network support
+* WordPress REST API support
 * Works perfectly with [Cache Enabler](https://wordpress.org/plugins/cache-enabler/) and the majority of third party plugins
 
 
@@ -46,6 +47,11 @@ CDN Enabler captures page contents and rewrites URLs to be served by the designa
 
 
 == Changelog ==
+
+= 2.0.4 =
+* Update configuration validation to include the Site Address (URL) as an HTTP `Referer` (#42)
+* Update URL matcher in rewriter to match URLs that are in escaped JSON format (#41)
+* Update CDN hostname validation to trim surrounding whitespace characters (#40)
 
 = 2.0.3 =
 * Update output buffer handling (#29)
