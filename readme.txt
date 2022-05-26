@@ -18,12 +18,12 @@ CDN Enabler is a simple and easy to use WordPress plugin that rewrites URLs, suc
 
 = Features =
 * Fast and efficient rewrite engine
-* Manual and WP-CLI cache purging (when a [KeyCDN](https://www.keycdn.com) account is connected)
+* Easy cache purging (when a [KeyCDN](https://www.keycdn.com) account is connected)
 * Include URLs in the rewrite by file extensions
 * Exclude URLs in the rewrite by strings
 * WordPress multisite network support
 * WordPress REST API support
-* Works perfectly with [Cache Enabler](https://wordpress.org/plugins/cache-enabler/) and the majority of third party plugins
+* Works perfectly with [Cache Enabler](https://wordpress.org/plugins/cache-enabler/)
 
 
 = How does the rewriting work? =
