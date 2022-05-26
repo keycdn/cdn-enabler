@@ -93,6 +93,46 @@ final class CDN_Enabler_Engine {
 
 
     /**
+     * Sanitize server input string.
+     *
+     * @since   2.0.5
+     * @change  2.0.5
+     *
+     * @param   string  $str Input string.
+     * @param   bool    $strict Strictly sanitized.
+     * @return  string  Sanitized input string.
+     */
+    public static function sanitize_server_input($str, $strict = true) {
+
+        if ( is_object( $str ) || is_array( $str ) ) {
+            return '';
+        }
+
+        $str = (string) $str;
+        if ( 0 === strlen( $str ) ) {
+            return '';
+        }
+
+        $filtered = preg_replace( '/[\r\n\t ]+/', ' ', $str );
+        $filtered = trim( $filtered );
+
+        if ( $strict ) {
+            $found = false;
+            while ( preg_match( '/%[a-f0-9]{2}/i', $filtered, $match ) ) {
+                $filtered = str_replace( $match[0], '', $filtered );
+                $found    = true;
+            }
+
+            if ( $found ) {
+                $filtered = trim( preg_replace( '/ +/', ' ', $filtered ) );
+            }
+        }
+
+        return $filtered;
+    }
+
+
+    /**
      * check if file URL is excluded from rewrite
      *
      * @since   2.0.0
@@ -181,7 +221,7 @@ final class CDN_Enabler_Engine {
     private static function rewrite_url( $matches ) {
 
         $file_url       = $matches[0];
-        $site_hostname  = ( ! empty( $_SERVER['HTTP_HOST'] ) ) ? $_SERVER['HTTP_HOST'] : parse_url( home_url(), PHP_URL_HOST );
+        $site_hostname  = ( ! empty( $_SERVER['HTTP_HOST'] ) ) ? self::sanitize_server_input( $_SERVER['HTTP_HOST'] ) : parse_url( home_url(), PHP_URL_HOST );
         $site_hostnames = (array) apply_filters( 'cdn_enabler_site_hostnames', array( $site_hostname ) );
         $cdn_hostname   = self::$settings['cdn_hostname'];
 
