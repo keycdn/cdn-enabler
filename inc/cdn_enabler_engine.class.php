@@ -63,7 +63,7 @@ final class CDN_Enabler_Engine {
 
     private static function start_buffering() {
 
-        ob_start( 'self::end_buffering' );
+        ob_start( [self::class, 'end_buffering'] );
     }
 
 
