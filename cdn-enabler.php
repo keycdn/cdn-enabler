@@ -6,11 +6,11 @@ Description: Simple and fast WordPress content delivery network (CDN) integratio
 Author: KeyCDN
 Author URI: https://www.keycdn.com
 License: GPLv2 or later
-Version: 2.0.7
+Version: 2.0.8
 */
 
 /*
-Copyright (C) 2022 KeyCDN
+Copyright (C) 2024 KeyCDN
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // constants
-define( 'CDN_ENABLER_VERSION', '2.0.7' );
+define( 'CDN_ENABLER_VERSION', '2.0.8' );
 define( 'CDN_ENABLER_MIN_PHP', '5.6' );
 define( 'CDN_ENABLER_MIN_WP', '5.1' );
 define( 'CDN_ENABLER_FILE', __FILE__ );

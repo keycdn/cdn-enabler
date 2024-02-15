@@ -58,12 +58,12 @@ final class CDN_Enabler_Engine {
      * start output buffering
      *
      * @since   2.0.0
-     * @change  2.0.0
+     * @change  2.0.8
      */
 
     private static function start_buffering() {
 
-        ob_start( [self::class, 'end_buffering'] );
+        ob_start( self::class . '::end_buffering' );
     }
 
 
@@ -258,7 +258,7 @@ final class CDN_Enabler_Engine {
      * rewrite contents
      *
      * @since   2.0.0
-     * @change  2.0.4
+     * @change  2.0.8
      *
      * @param   string  $contents                      contents to parse
      * @return  string  $contents|$rewritten_contents  rewritten contents if applicable, unchanged otherwise
@@ -277,7 +277,7 @@ final class CDN_Enabler_Engine {
 
         $urls_regex = '#(?:(?:[\"\'\s=>,;]|url\()\K|^)[^\"\'\s(=>,;]+(' . $included_file_extensions_regex . ')(\?[^\/?\\\"\'\s)>,]+)?(?:(?=\/?[?\\\"\'\s)>,&])|$)#i';
 
-        $rewritten_contents = apply_filters( 'cdn_enabler_contents_after_rewrite', preg_replace_callback( $urls_regex, 'self::rewrite_url', $contents ) );
+        $rewritten_contents = apply_filters( 'cdn_enabler_contents_after_rewrite', preg_replace_callback( $urls_regex, self::class . '::rewrite_url', $contents ) );
 
         return $rewritten_contents;
     }

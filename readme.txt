@@ -1,8 +1,8 @@
 === CDN Enabler ===
 Contributors: keycdn
 Tags: cdn, content delivery network, content distribution network
-Tested up to: 6.2
-Stable tag: 2.0.7
+Tested up to: 6.4
+Stable tag: 2.0.8
 Requires at least: 5.1
 Requires PHP: 5.6
 License: GPLv2 or later
@@ -47,6 +47,9 @@ CDN Enabler captures page contents and rewrites URLs to be served by the designa
 
 
 == Changelog ==
+
+= 2.0.8 =
+* Fix self class handling
 
 = 2.0.7 =
 * PHP 8.2 compatibility

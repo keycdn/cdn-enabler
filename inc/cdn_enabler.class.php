@@ -67,7 +67,7 @@ final class CDN_Enabler {
      * activation hook
      *
      * @since   2.0.0
-     * @change  2.0.0
+     * @change  2.0.8
      *
      * @param   boolean  $network_wide  network activated
      */
@@ -75,7 +75,7 @@ final class CDN_Enabler {
     public static function on_activation( $network_wide ) {
 
         // add backend requirements
-        self::each_site( $network_wide, 'self::update_backend' );
+        self::each_site( $network_wide, self::class . '::update_backend' );
     }
 
 
@@ -83,13 +83,13 @@ final class CDN_Enabler {
      * uninstall hook
      *
      * @since   2.0.0
-     * @change  2.0.0
+     * @change  2.0.8
      */
 
     public static function on_uninstall() {
 
         // uninstall backend requirements
-        self::each_site( is_multisite(), 'self::uninstall_backend' );
+        self::each_site( is_multisite(), self::class . '::uninstall_backend' );
     }
 
 
