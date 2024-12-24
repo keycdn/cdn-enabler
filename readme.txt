@@ -1,7 +1,7 @@
 === CDN Enabler ===
 Contributors: keycdn
 Tags: cdn, content delivery network, content distribution network
-Tested up to: 6.5
+Tested up to: 6.7
 Stable tag: 2.0.8
 Requires at least: 5.1
 Requires PHP: 5.6
